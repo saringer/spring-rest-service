@@ -2,6 +2,7 @@ package de;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import de.data_models.Dog;
 import de.repositories.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

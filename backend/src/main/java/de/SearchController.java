@@ -1,5 +1,6 @@
 package de;
 
+import de.data_models.Dog;
 import de.repositories.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class SearchController {
     public Dog greeting(@RequestBody String request) {
         System.out.println("kam an json" + request);
         //dogRepository.save(request);
+
         return new Dog();
     }
     // @RequestMapping("/save")
