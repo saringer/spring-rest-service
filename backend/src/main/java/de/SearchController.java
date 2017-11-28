@@ -22,5 +22,6 @@ public class SearchController {
     public List<Dog> getDogs() {
         System.out.println("all dogs");
         return dogRepository.findAll();
+        //sdsa
     }
 }
