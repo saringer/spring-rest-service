@@ -8,6 +8,7 @@ import java.util.List;
 public interface DogRepository extends JpaRepository<Dog, Long> {
 
     List<Dog> findByName(String name);
+    List<Dog> findAll();
 
 
 
