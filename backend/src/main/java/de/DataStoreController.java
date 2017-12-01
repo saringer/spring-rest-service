@@ -2,14 +2,8 @@ package de;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import de.data_models.Breeder;
-import de.data_models.Dog;
-import de.data_models.Owner;
-import de.data_models.Tournament;
-import de.repositories.BreederRepository;
-import de.repositories.DogRepository;
-import de.repositories.OwnerRepository;
-import de.repositories.TournamentRepository;
+import de.data_models.*;
+import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +22,8 @@ public class DataStoreController {
     private TournamentRepository tournamentRepository;
     @Autowired
     private BreederRepository breederRepository;
+    @Autowired
+    private ClubRepository clubRepository;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -75,16 +71,32 @@ public class DataStoreController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Breeder saveTournamentJson(@RequestBody Breeder request) {
-        System.out.println("kam an tournament" + request.getKennelname());
+    public Breeder saveBreederJson(@RequestBody Breeder request) {
+        System.out.println("kam an bbreeder" + request.getKennelname());
         breederRepository.save(request);
         return new Breeder();
     }
+
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
-    public Breeder saveTournamentPlainText(@RequestBody Breeder request) {
-        System.out.println("kam an tournament" + request.getKennelname());
+    public Breeder saveBreederPlainText(@RequestBody Breeder request) {
+        System.out.println("kam an breeder" + request.getKennelname());
         breederRepository.save(request);
         return new Breeder();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
+    public Club saveClubPlainText(@RequestBody Club request) {
+        System.out.println("kam an club" + request.getClubname());
+        clubRepository.save(request);
+        return new Club();
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Club saveClubJson(@RequestBody Club request) {
+        System.out.println("kam an club" + request.getClubname());
+        clubRepository.save(request);
+        return new Club();
     }
 }

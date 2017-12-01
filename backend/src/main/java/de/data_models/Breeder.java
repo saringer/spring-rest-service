@@ -1,6 +1,9 @@
 package de.data_models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "BREEDER")
@@ -78,8 +81,12 @@ public class Breeder {
     private String firstname;
     private String lastname;
     private String kennelname;
-    public String street;
-    public String postalcode;
-    public String city;
-    public String country;
+    private String street;
+    private String postalcode;
+    private String city;
+    private String country;
+    @JsonBackReference
+    @OneToMany(mappedBy = "breeder", cascade = CascadeType.MERGE)
+    private Set<Dog> dogs;
+
 }

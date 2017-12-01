@@ -16,21 +16,20 @@ public class Dog {
     private String name;
     private String race;
     private String sex;
-    private String breeder;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    // @JsonBackReference
+    @JoinColumn(name = "breeder_id")
+    private Breeder breeder;
     private Integer chip_no;
     private String coat_colour;
     private Date date_of_birth;
-    /*@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, targetEntity = Breeder.class)
-    @JoinTable(name = "DOG_BREEDER", joinColumns = {@JoinColumn(name = "DOG_ID")}, inverseJoinColumns = {@JoinColumn(name = "BREEDER_ID")})
-    private Breeder breeder;*/
-
     @ManyToOne(cascade = CascadeType.MERGE)
    // @JsonBackReference
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
     public Dog(String passport_no, String name, String race, String sex, Integer chip_no,
-               String coat_colour, String breeder, Date date_of_birth, Owner owner) {
+               String coat_colour, Breeder breeder, Date date_of_birth, Owner owner) {
        // this.id = id;
         this.passport_no = passport_no;
         this.name = name;
@@ -104,13 +103,10 @@ public class Dog {
         this.coat_colour = coat_colour;
     }
 
-    public String getBreeder() {
+    public Breeder getBreeder() {
         return breeder;
     }
 
-    public void setBreeder(String breeder) {
-        this.breeder = breeder;
-    }
 
     public Date getDate_of_birth() {
         return date_of_birth;
