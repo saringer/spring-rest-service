@@ -1,8 +1,10 @@
 package de;
 
+import de.data_models.Breeder;
 import de.data_models.Dog;
 import de.data_models.Owner;
 import de.data_models.Tournament;
+import de.repositories.BreederRepository;
 import de.repositories.DogRepository;
 import de.repositories.OwnerRepository;
 import de.repositories.TournamentRepository;
@@ -23,6 +25,8 @@ public class DataRetrieveController {
     private OwnerRepository ownerRepository;
     @Autowired
     private TournamentRepository tournamentRepository;
+    @Autowired
+    private BreederRepository breederRepository;
 
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -42,5 +46,11 @@ public class DataRetrieveController {
     public List<Tournament> getTournaments() {
         System.out.println("all tournaments");
         return tournamentRepository.findAll();
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/breeders", method = RequestMethod.GET)
+    public List<Breeder> getBreeders() {
+        System.out.println("all Breeder");
+        return breederRepository.findAll();
     }
 }

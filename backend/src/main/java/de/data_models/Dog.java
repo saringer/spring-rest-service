@@ -16,10 +16,14 @@ public class Dog {
     private String name;
     private String race;
     private String sex;
+    private String breeder;
     private Integer chip_no;
     private String coat_colour;
-    private String breeder;
     private Date date_of_birth;
+    /*@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, targetEntity = Breeder.class)
+    @JoinTable(name = "DOG_BREEDER", joinColumns = {@JoinColumn(name = "DOG_ID")}, inverseJoinColumns = {@JoinColumn(name = "BREEDER_ID")})
+    private Breeder breeder;*/
+
     @ManyToOne(cascade = CascadeType.MERGE)
    // @JsonBackReference
     @JoinColumn(name = "owner_id")

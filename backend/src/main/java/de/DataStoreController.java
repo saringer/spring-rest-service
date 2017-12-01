@@ -2,9 +2,11 @@ package de;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import de.data_models.Breeder;
 import de.data_models.Dog;
 import de.data_models.Owner;
 import de.data_models.Tournament;
+import de.repositories.BreederRepository;
 import de.repositories.DogRepository;
 import de.repositories.OwnerRepository;
 import de.repositories.TournamentRepository;
@@ -24,6 +26,8 @@ public class DataStoreController {
     private OwnerRepository ownerRepository;
     @Autowired
     private TournamentRepository tournamentRepository;
+    @Autowired
+    private BreederRepository breederRepository;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -67,5 +71,20 @@ public class DataStoreController {
         System.out.println("kam an tournament" + request.getTitle());
         tournamentRepository.save(request);
         return new Tournament();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Breeder saveTournamentJson(@RequestBody Breeder request) {
+        System.out.println("kam an tournament" + request.getKennelname());
+        breederRepository.save(request);
+        return new Breeder();
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
+    public Breeder saveTournamentPlainText(@RequestBody Breeder request) {
+        System.out.println("kam an tournament" + request.getKennelname());
+        breederRepository.save(request);
+        return new Breeder();
     }
 }
