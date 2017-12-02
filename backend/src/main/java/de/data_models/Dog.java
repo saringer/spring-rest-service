@@ -117,8 +117,6 @@ public class Dog {
     }
 
 
-
-
     public Owner getOwner() {
         return owner;
     }
