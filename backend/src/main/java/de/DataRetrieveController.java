@@ -25,31 +25,31 @@ public class DataRetrieveController {
     private ClubRepository clubRepository;
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @RequestMapping(value = "/dogs",method = RequestMethod.GET)
     public List<Dog> getDogs() {
         System.out.println("all dogs");
         return dogRepository.findAll();
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @RequestMapping(value = "/owners", method = RequestMethod.GET)
     public List<Owner> getOwners() {
         System.out.println("all owners");
         return ownerRepository.findAll();
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @RequestMapping(value = "/tournaments", method = RequestMethod.GET)
     public List<Tournament> getTournaments() {
         System.out.println("all tournaments");
         return tournamentRepository.findAll();
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @RequestMapping(value = "/breeders", method = RequestMethod.GET)
     public List<Breeder> getBreeders() {
         System.out.println("all Breeder");
         return breederRepository.findAll();
     }
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @RequestMapping(value = "/clubs", method = RequestMethod.GET)
     public List<Club> getClubs() {
         System.out.println("all Clubs");
