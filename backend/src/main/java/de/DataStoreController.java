@@ -29,34 +29,31 @@ public class DataStoreController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveDogJson(@RequestBody Dog request) {
-        System.out.println("kam an json" + request.getName() + " OwnerID: " + request.getOwner());
-        dogRepository.save(request);
-       // return new Dog();
+    public Dog saveDogJson(@RequestBody Dog request) {
+        System.out.println("kam an json" + request.getName() + " OwnerID: " + request.getOwner().getFirstname());
+        return dogRepository.save(request);
     }
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
-    public void saveDogPlainText(@RequestParam(value="name", defaultValue="World") String name) {
+    public Dog saveDogPlainText(@RequestBody Dog request) {
         System.out.println("kam an text");
-        //return new Dog();
+        return dogRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveOwnerJson(@RequestBody Owner request) {
+    public Owner saveOwnerJson(@RequestBody Owner request) {
         System.out.println("kam an owner" + request.getFirstname());
-        ownerRepository.save(request);
-        //return new Owner();
+        return ownerRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
-    public void saveOwnerPlainText(@RequestBody Owner request) {
+    public Owner saveOwnerPlainText(@RequestBody Owner request) {
         System.out.println("kam an owner" + request.getFirstname());
-        ownerRepository.save(request);
-       // return new Owner();
+        return ownerRepository.save(request);
     }
 
     @CrossOrigin
@@ -64,47 +61,43 @@ public class DataStoreController {
     @RequestMapping(value = "/tournament", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Tournament saveTournamentJson(@RequestBody Tournament request) {
         System.out.println("kam an tournament" + request.getTitle());
-        tournamentRepository.save(request);
-        return new Tournament();
+        return tournamentRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournament", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public Tournament saveTournamentPlainText(@RequestBody Tournament request) {
         System.out.println("kam an tournament" + request.getTitle());
-        tournamentRepository.save(request);
-        return new Tournament();
+        return tournamentRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Breeder saveBreederJson(@RequestBody Breeder request) {
-        System.out.println("kam an bbreeder" + request.getKennelname());
-        breederRepository.save(request);
-        return new Breeder();
+        System.out.println("kam an breeder: " + request.getKennelname());
+        return breederRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public Breeder saveBreederPlainText(@RequestBody Breeder request) {
         System.out.println("kam an breeder" + request.getKennelname());
-        breederRepository.save(request);
-        return new Breeder();
+        return breederRepository.save(request);
+
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public Club saveClubPlainText(@RequestBody Club request) {
         System.out.println("kam an club" + request.getClubname());
-        clubRepository.save(request);
-        return new Club();
+        return clubRepository.save(request);
+
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Club saveClubJson(@RequestBody Club request) {
         System.out.println("kam an club" + request.getClubname());
-        clubRepository.save(request);
-        return new Club();
+        return clubRepository.save(request);
     }
 }
