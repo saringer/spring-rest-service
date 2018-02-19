@@ -13,6 +13,7 @@ import java.util.Set;
 public class Dog {
 
     @Id
+    @Column(name = "dog_id", updatable=false, nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String passport_no;
@@ -30,6 +31,18 @@ public class Dog {
    // @JsonBackReference
     @JoinColumn(name = "owner_id")
     private Owner owner;
+
+    public Set<TournamentDog> getTournamentDogs() {
+        return tournamentDogs;
+    }
+
+    public void setTournamentDogs(Set<TournamentDog> tournamentDogs) {
+        this.tournamentDogs = tournamentDogs;
+    }
+
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TournamentDog> tournamentDogs;
+
 
     public Set<Tournament> getTournaments() {
         return tournaments;

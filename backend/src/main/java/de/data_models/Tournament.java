@@ -13,6 +13,18 @@ import java.util.Set;
 @Table(name = "TOURNAMENT")
 public class Tournament {
 
+    public Set<TournamentDog> getTournamentDogs() {
+        return tournamentDogs;
+    }
+
+    public void setTournamentDogs(Set<TournamentDog> tournamentDogs) {
+        this.tournamentDogs = tournamentDogs;
+    }
+
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TournamentDog> tournamentDogs;
+
+
     public Tournament() {
 
     }
@@ -51,6 +63,7 @@ public class Tournament {
 
 
     @Id
+    @Column(name = "tournament_id", updatable=false, nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
     public String title;
@@ -96,5 +109,6 @@ public class Tournament {
     @ManyToMany(fetch = FetchType.LAZY)
     //@JsonManagedReference
     private Set<Judge> participating_judges;
+
 
 }
