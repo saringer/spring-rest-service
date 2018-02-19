@@ -25,6 +25,8 @@ public class DataStoreController {
     private BreederRepository breederRepository;
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
+    private JudgeRepository judgeRepository;
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
@@ -99,5 +101,20 @@ public class DataStoreController {
     public Club saveClubJson(@RequestBody Club request) {
         System.out.println("kam an club" + request.getClubname());
         return clubRepository.save(request);
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/judge", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
+    public Judge saveJudgePlainText(@RequestBody Judge request) {
+        System.out.println("kam an judge: " + request.getFirstname());
+        return judgeRepository.save(request);
+
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/judge", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Judge saveJudgeJson(@RequestBody Judge request) {
+        System.out.println("kam an judge: " + request.getFirstname());
+        return judgeRepository.save(request);
     }
 }

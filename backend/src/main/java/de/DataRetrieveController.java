@@ -23,6 +23,8 @@ public class DataRetrieveController {
     private BreederRepository breederRepository;
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
+    private JudgeRepository judgeRepository;
 
 
     @CrossOrigin
@@ -54,5 +56,11 @@ public class DataRetrieveController {
     public List<Club> getClubs() {
         System.out.println("all Clubs");
         return clubRepository.findAll();
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/judges", method = RequestMethod.GET)
+    public List<Judge> getJudges() {
+        System.out.println("all Judges");
+        return judgeRepository.findAll();
     }
 }

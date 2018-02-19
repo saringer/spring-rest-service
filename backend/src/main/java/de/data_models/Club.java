@@ -1,8 +1,11 @@
 package de.data_models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -66,15 +69,23 @@ public class Club {
     public String city;
     public String country;
 
-    public Set<Tournament> getTournaments() {
+   /* public List<Tournament> getTournaments() {
         return tournaments;
     }
 
-    public void setTournaments(Set<Tournament> tournaments) {
+    public void addTournaments(Tournament tournament) {
+        this.tournaments.add(tournament);
+    }
+
+    public void setTournaments(List<Tournament> tournaments) {
         this.tournaments = tournaments;
     }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "club", cascade = CascadeType.MERGE)
-    private Set<Tournament> tournaments;
+
+    @OneToMany(
+            mappedBy = "club",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Tournament> tournaments = new ArrayList<Tournament>();*/
 }

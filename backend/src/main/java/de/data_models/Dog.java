@@ -3,7 +3,10 @@ package de.data_models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "DOG")
@@ -20,7 +23,7 @@ public class Dog {
     // @JsonBackReference
     @JoinColumn(name = "breeder_id")
     private Breeder breeder;
-    private Integer chip_no;
+    private String chip_no;
     private String coat_colour;
     private Date date_of_birth;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -28,7 +31,19 @@ public class Dog {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    public Dog(String passport_no, String name, String race, String sex, Integer chip_no,
+    public Set<Tournament> getTournaments() {
+        return tournaments;
+    }
+
+    public void setTournaments(Set<Tournament> tournaments) {
+        this.tournaments = tournaments;
+    }
+
+    @ManyToMany(mappedBy = "participating_dogs", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<Tournament> tournaments;
+
+    public Dog(String passport_no, String name, String race, String sex, String chip_no,
                String coat_colour, Breeder breeder, Date date_of_birth, Owner owner) {
        // this.id = id;
         this.passport_no = passport_no;
@@ -87,11 +102,11 @@ public class Dog {
         this.sex = sex;
     }
 
-    public Integer getChip_no() {
+    public String getChip_no() {
         return chip_no;
     }
 
-    public void setChip_no(Integer chip_no) {
+    public void setChip_no(String chip_no) {
         this.chip_no = chip_no;
     }
 
