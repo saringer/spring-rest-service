@@ -4,25 +4,25 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "TOURNAMENT")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Tournament.class)
 public class Tournament {
 
-    public Set<TournamentDog> getTournamentDogs() {
+
+    public List<TournamentDog> getTournamentDogs() {
         return tournamentDogs;
     }
 
-    public void setTournamentDogs(Set<TournamentDog> tournamentDogs) {
+    public void setTournamentDogs(List<TournamentDog> tournamentDogs) {
         this.tournamentDogs = tournamentDogs;
     }
 
-    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TournamentDog> tournamentDogs;
+
+    @OneToMany(mappedBy = "tournament")
+    private List<TournamentDog> tournamentDogs = new ArrayList<>();
 
 
     public Tournament() {
@@ -63,7 +63,7 @@ public class Tournament {
 
 
     @Id
-    @Column(name = "tournament_id", updatable=false, nullable=false)
+    @Column(name = "TOURNAMENT_ID", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
     public String title;
@@ -79,12 +79,16 @@ public class Tournament {
     }
 
 
-
     @ManyToOne
     @JoinColumn
     private Club club;
 
     public Date date;
+
+    /*@ManyToMany(fetch = FetchType.LAZY)
+    //@JsonManagedReference
+    private Set<Dog> participating_dogs;
+
 
     public Set<Dog> getParticipating_dogs() {
         return participating_dogs;
@@ -92,7 +96,7 @@ public class Tournament {
 
     public void setParticipating_dogs(Set<Dog> participating_dogs) {
         this.participating_dogs = participating_dogs;
-    }
+    }*/
 
     public Set<Judge> getParticipating_judges() {
         return participating_judges;
@@ -102,13 +106,12 @@ public class Tournament {
         this.participating_judges = participating_judges;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    //@JsonManagedReference
-    private Set<Dog> participating_dogs;
 
     @ManyToMany(fetch = FetchType.LAZY)
     //@JsonManagedReference
     private Set<Judge> participating_judges;
+
+
 
 
 }

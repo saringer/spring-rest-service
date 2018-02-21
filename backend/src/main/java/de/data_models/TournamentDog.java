@@ -2,9 +2,10 @@ package de.data_models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
+// Composite Key
 @Entity
-@IdClass(TournamentDogID.class)
 @Table(name = "tournament_dog")
 public class TournamentDog implements Serializable {
 
@@ -12,6 +13,13 @@ public class TournamentDog implements Serializable {
     @ManyToOne
     @JoinColumn(name = "dog_id")
     private Dog dog;
+
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
+
 
     public int getJudging() {
         return judging;
@@ -41,10 +49,23 @@ public class TournamentDog implements Serializable {
         this.tournament = tournament;
     }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        TournamentDog that = (TournamentDog) o;
+        return Objects.equals(dog, that.dog) &&
+                Objects.equals(tournament, that.tournament);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dog, tournament);
+    }
 
 
 }

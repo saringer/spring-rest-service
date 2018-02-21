@@ -1,19 +1,18 @@
 package de.data_models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "DOG")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Dog.class)
 public class Dog {
 
     @Id
-    @Column(name = "dog_id", updatable=false, nullable=false)
+    @Column(name = "DOG_ID", updatable=false, nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String passport_no;
@@ -32,19 +31,22 @@ public class Dog {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    public Set<TournamentDog> getTournamentDogs() {
+
+    public List<TournamentDog> getTournamentDogs() {
         return tournamentDogs;
     }
 
-    public void setTournamentDogs(Set<TournamentDog> tournamentDogs) {
+    public void setTournamentDogs(List<TournamentDog> tournamentDogs) {
         this.tournamentDogs = tournamentDogs;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TournamentDog> tournamentDogs;
+    private List<TournamentDog> tournamentDogs = new ArrayList<>();
 
 
-    public Set<Tournament> getTournaments() {
+
+    /*public Set<Tournament> getTournaments() {
         return tournaments;
     }
 
@@ -54,7 +56,7 @@ public class Dog {
 
     @ManyToMany(mappedBy = "participating_dogs", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Tournament> tournaments;
+    private Set<Tournament> tournaments;*/
 
     public Dog(String passport_no, String name, String race, String sex, String chip_no,
                String coat_colour, Breeder breeder, Date date_of_birth, Owner owner) {

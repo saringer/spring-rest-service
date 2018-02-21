@@ -28,6 +28,7 @@ public class DataStoreController {
     @Autowired
     private JudgeRepository judgeRepository;
 
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +43,27 @@ public class DataStoreController {
     public Dog saveDogPlainText(@RequestBody Dog request) {
         System.out.println("kam an text");
         return dogRepository.save(request);
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/tournamentdogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveTournamentDogJson(@RequestBody TournamentDog request) {
+        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId());
+        Dog dog = dogRepository.findOne(request.getDog().getId());
+        Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
+        dog.getTournamentDogs().add(request);
+        tournamentRepository.save(tournament);
+        dogRepository.save(dog);
+
+
+
+    }
+
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/tournamentdogs", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
+    public void saveTournamentDogPlainText(@RequestBody TournamentDog request) {
+        System.out.println("kam an text");
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)

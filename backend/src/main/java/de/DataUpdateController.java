@@ -18,7 +18,7 @@ public class DataUpdateController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/tournaments/{id}")
     public Tournament updateTournamentJson(@PathVariable long id, @RequestBody Tournament request) {
-        System.out.println("tournament update: " + request.getTitle() + " Ist Empty? " + request.getParticipating_dogs().isEmpty());
+        System.out.println("tournament update: " + request.getTitle());
         return tournamentRepository.save(request);
     }
 
