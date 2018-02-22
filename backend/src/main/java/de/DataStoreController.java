@@ -48,7 +48,7 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveTournamentDogJson(@RequestBody TournamentDog request) {
-        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId());
+        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId() + "Wertung: " + request.getJudging());
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
         dog.getTournamentDogs().add(request);

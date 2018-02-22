@@ -31,6 +31,25 @@ public class TournamentDog implements Serializable {
 
     private int judging;
 
+    public String getDogname() {
+        return dogname;
+    }
+
+    public void setDogname(String dogname) {
+        this.dogname = dogname;
+    }
+
+    public String getTournamenttype() {
+        return tournamenttype;
+    }
+
+    public void setTournamenttype(String tournamenttype) {
+        this.tournamenttype = tournamenttype;
+    }
+
+    private String dogname;
+    private String tournamenttype;
+
 
     public Dog getDog() {
         return dog;
@@ -66,6 +85,38 @@ public class TournamentDog implements Serializable {
     public int hashCode() {
         return Objects.hash(dog, tournament);
     }
+
+   /* public static class TournamentDogId implements Serializable {
+
+        private Tournament tournament;
+        private Dog dog;
+
+        public TournamentDogId() {}
+
+        public TournamentDogId(Tournament tournamentId, Dog dogId) {
+            this.tournament = tournamentId;
+            this.dog = dogId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+
+            if (o == this) {
+                return true;
+            }
+            if (!(o instanceof TournamentDog)) {
+                return false;
+            }
+            TournamentDog assignedRole = (TournamentDog) o;
+            return Objects.equals(tournament, assignedRole.getTournament()) &&
+                    Objects.equals(dog, assignedRole.getDog());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(tournament, dog);
+        }
+    }*/
 
 
 }
