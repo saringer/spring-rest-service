@@ -8,7 +8,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "TOURNAMENT")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Tournament.class)
+//@JsonIdentityReference(alwaysAsId = true)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = EntityIdResolver.class, scope = Tournament.class)
 public class Tournament {
 
 

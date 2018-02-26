@@ -8,7 +8,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "DOG")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Dog.class)
+//@JsonIdentityReference(alwaysAsId = true)
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = EntityIdResolver.class, scope = Dog.class)
 public class Dog {
 
     @Id
@@ -39,6 +40,25 @@ public class Dog {
     public void setTournamentDogs(List<TournamentDog> tournamentDogs) {
         this.tournamentDogs = tournamentDogs;
     }
+
+    public void addTournamentDog(TournamentDog tournamentDog) {
+        boolean isAlreadyInList = false;
+        for (int i = 0; i<this.tournamentDogs.size(); i++) {
+            System.out.println("soweit");
+
+            if (this.tournamentDogs.get(i).getTournament().getId() == tournamentDog.getTournament().getId()) {
+                    System.out.println("Test"+ tournamentDog.getTournament().getId());
+                    //this.tournamentDogs.set(i, tournamentDog);
+                    this.tournamentDogs.get(i).setJudging(tournamentDog.getJudging());
+                    isAlreadyInList = true;
+                    break;
+                }
+        }
+        if (!isAlreadyInList) {
+            this.tournamentDogs.add(tournamentDog);
+        }
+    }
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)

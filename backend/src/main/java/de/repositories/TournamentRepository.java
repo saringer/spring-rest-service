@@ -12,5 +12,6 @@ import java.util.List;
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
     List<Tournament> findAll();
     Tournament save(Tournament tournament);
+    Tournament findById(Long id);
 
 }

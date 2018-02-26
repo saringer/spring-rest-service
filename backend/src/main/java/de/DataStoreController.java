@@ -51,7 +51,8 @@ public class DataStoreController {
         System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId() + "Wertung: " + request.getJudging());
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
-        dog.getTournamentDogs().add(request);
+        dog.addTournamentDog(request);
+        //dog.getTournamentDogs().add(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
 

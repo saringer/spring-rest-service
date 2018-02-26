@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @RestController
@@ -27,7 +29,17 @@ public class DataRetrieveController {
     private JudgeRepository judgeRepository;
     //Autowired
     //private TournamentDogRepository tournamentDogRepository;
+    @Autowired
+    EntityManager em;
 
+
+    @CrossOrigin
+    @RequestMapping(value = "/dogs2",method = RequestMethod.GET)
+    public List<Dog> getDogs2() {
+        System.out.println("all dogs");
+        Query query = em.createNativeQuery("SELECT * FROM tournament_dog", TournamentDog.class);
+        return query.getResultList();
+    }
 
     @CrossOrigin
     @RequestMapping(value = "/dogs",method = RequestMethod.GET)
@@ -39,7 +51,8 @@ public class DataRetrieveController {
     @RequestMapping(value = "/tournamentdogs/{id}",method = RequestMethod.GET)
     public List<TournamentDog> getTournamentDog(@PathVariable long id) {
         System.out.println("all tournanentdogs");
-        return tournamentRepository.findOne(id).getTournamentDogs();
+        return tournamentRepository.findById(id).getTournamentDogs();
+        //return tournamentRepository.findOne(id).getTournamentDogs();
     }
     @CrossOrigin
     @RequestMapping(value = "/owners", method = RequestMethod.GET)
