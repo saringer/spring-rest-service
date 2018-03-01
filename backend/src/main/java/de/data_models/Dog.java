@@ -8,11 +8,11 @@ import java.util.*;
 @Entity
 @Table(name = "DOG")
 //@JsonIdentityReference(alwaysAsId = true)
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id", resolver = EntityIdResolver.class, scope = Dog.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", resolver = EntityIdResolver.class, scope = Dog.class)
 public class Dog {
 
     @Id
-    @Column(name = "DOG_ID", updatable=false, nullable=false)
+    @Column(name = "DOG_ID", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String passport_no;
@@ -27,7 +27,7 @@ public class Dog {
     private String coat_colour;
     private Date date_of_birth;
     @ManyToOne(cascade = CascadeType.MERGE)
-   // @JsonBackReference
+    // @JsonBackReference
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
@@ -42,16 +42,42 @@ public class Dog {
 
     public void addTournamentDog(TournamentDog tournamentDog) {
         boolean isAlreadyInList = false;
-        for (int i = 0; i<this.tournamentDogs.size(); i++) {
+        for (int i = 0; i < this.tournamentDogs.size(); i++) {
             System.out.println("soweit");
 
             if (this.tournamentDogs.get(i).getTournament().getId() == tournamentDog.getTournament().getId()) {
-                    System.out.println("Test"+ tournamentDog.getTournament().getId());
-                    //this.tournamentDogs.set(i, tournamentDog);
-                    this.tournamentDogs.get(i).setCoursingrating1(tournamentDog.getCoursingrating1());
-                    isAlreadyInList = true;
-                    break;
-                }
+                System.out.println("Test" + tournamentDog.getTournament().getId());
+                //this.tournamentDogs.set(i, tournamentDog);
+                this.tournamentDogs.get(i).setCoursingrating1(tournamentDog.getCoursingrating1());
+                this.tournamentDogs.get(i).setCoursingrating2(tournamentDog.getCoursingrating2());
+                this.tournamentDogs.get(i).setCoursingrating3(tournamentDog.getCoursingrating3());
+                this.tournamentDogs.get(i).setCoursingrating4(tournamentDog.getCoursingrating4());
+                this.tournamentDogs.get(i).setCoursingrating5(tournamentDog.getCoursingrating5());
+                this.tournamentDogs.get(i).setCoursingrating6(tournamentDog.getCoursingrating6());
+                this.tournamentDogs.get(i).setCoursingrating7(tournamentDog.getCoursingrating7());
+                this.tournamentDogs.get(i).setCoursingrating8(tournamentDog.getCoursingrating8());
+                this.tournamentDogs.get(i).setCoursingrating9(tournamentDog.getCoursingrating9());
+                this.tournamentDogs.get(i).setCoursingrating10(tournamentDog.getCoursingrating10());
+                this.tournamentDogs.get(i).setCoursingrating11(tournamentDog.getCoursingrating11());
+                this.tournamentDogs.get(i).setCoursingrating12(tournamentDog.getCoursingrating12());
+
+                this.tournamentDogs.get(i).setRaceplacement(tournamentDog.getRaceplacement());
+                this.tournamentDogs.get(i).setRacetime(tournamentDog.getRacetime());
+                this.tournamentDogs.get(i).setRacetimewinner(tournamentDog.getRacetimewinner());
+
+
+
+
+
+
+
+
+
+
+
+                isAlreadyInList = true;
+                break;
+            }
         }
         if (!isAlreadyInList) {
             this.tournamentDogs.add(tournamentDog);
@@ -79,7 +105,7 @@ public class Dog {
 
     public Dog(String passport_no, String name, String race, String sex, String chip_no,
                String coat_colour, Breeder breeder, Date date_of_birth, Owner owner) {
-       // this.id = id;
+        // this.id = id;
         this.passport_no = passport_no;
         this.name = name;
         this.race = race;
@@ -91,7 +117,7 @@ public class Dog {
         this.owner = owner;
     }
 
-    public  Dog() {
+    public Dog() {
 
     }
 

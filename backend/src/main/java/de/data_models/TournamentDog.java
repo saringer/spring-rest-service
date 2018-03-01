@@ -6,7 +6,7 @@ import java.util.Objects;
 
 // Composite Key
 @Entity
-@Table(name = "tournament_dog_coursing")
+@Table(name = "tournament_dog")
 public class TournamentDog implements Serializable {
 
     @Id
@@ -19,6 +19,48 @@ public class TournamentDog implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
+
+    private int coursingrating1;
+    private int coursingrating2;
+    private int coursingrating3;
+    private int coursingrating4;
+    private int coursingrating5;
+    private int coursingrating6;
+    private int coursingrating7;
+    private int coursingrating8;
+    private int coursingrating9;
+    private int coursingrating10;
+    private int coursingrating11;
+    private int coursingrating12;
+    private int raceplacement;
+    private int racetime;
+    private int racetimewinner;
+
+    public int getRaceplacement() {
+        return raceplacement;
+    }
+
+    public void setRaceplacement(int raceplacement) {
+        this.raceplacement = raceplacement;
+    }
+
+    public int getRacetime() {
+        return racetime;
+    }
+
+    public void setRacetime(int racetime) {
+        this.racetime = racetime;
+    }
+
+    public int getRacetimewinner() {
+        return racetimewinner;
+    }
+
+    public void setRacetimewinner(int racetimewinner) {
+        this.racetimewinner = racetimewinner;
+    }
+
+
 
 
     public int getCoursingrating1() {
@@ -118,18 +160,7 @@ public class TournamentDog implements Serializable {
         this.coursingrating12 = coursingrating12;
     }
 
-    private int coursingrating1;
-    private int coursingrating2;
-    private int coursingrating3;
-    private int coursingrating4;
-    private int coursingrating5;
-    private int coursingrating6;
-    private int coursingrating7;
-    private int coursingrating8;
-    private int coursingrating9;
-    private int coursingrating10;
-    private int coursingrating11;
-    private int coursingrating12;
+
 
 
     public String getDogname() {
