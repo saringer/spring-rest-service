@@ -50,7 +50,7 @@ public class DataRetrieveController {
     @CrossOrigin
     @RequestMapping(value = "/tournamentdogs/{id}",method = RequestMethod.GET)
     public List<TournamentDog> getTournamentDog(@PathVariable long id) {
-        System.out.println("all tournanentdogs");
+        System.out.println("all tournamentdogcoursings");
         return tournamentRepository.findById(id).getTournamentDogs();
         //return tournamentRepository.findOne(id).getTournamentDogs();
     }

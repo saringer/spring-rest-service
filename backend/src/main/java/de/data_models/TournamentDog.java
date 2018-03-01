@@ -6,7 +6,7 @@ import java.util.Objects;
 
 // Composite Key
 @Entity
-@Table(name = "tournament_dog")
+@Table(name = "tournament_dog_coursing")
 public class TournamentDog implements Serializable {
 
     @Id
@@ -21,15 +21,116 @@ public class TournamentDog implements Serializable {
     private Tournament tournament;
 
 
-    public int getJudging() {
-        return judging;
+    public int getCoursingrating1() {
+        return coursingrating1;
     }
 
-    public void setJudging(int judging) {
-        this.judging = judging;
+    public void setCoursingrating1(int coursingrating1) {
+        this.coursingrating1 = coursingrating1;
     }
 
-    private int judging;
+
+    public int getCoursingrating2() {
+        return coursingrating2;
+    }
+
+    public void setCoursingrating2(int coursingrating2) {
+        this.coursingrating2 = coursingrating2;
+    }
+
+    public int getCoursingrating3() {
+        return coursingrating3;
+    }
+
+    public void setCoursingrating3(int coursingrating3) {
+        this.coursingrating3 = coursingrating3;
+    }
+
+    public int getCoursingrating4() {
+        return coursingrating4;
+    }
+
+    public void setCoursingrating4(int coursingrating4) {
+        this.coursingrating4 = coursingrating4;
+    }
+
+    public int getCoursingrating5() {
+        return coursingrating5;
+    }
+
+    public void setCoursingrating5(int coursingrating5) {
+        this.coursingrating5 = coursingrating5;
+    }
+
+    public int getCoursingrating6() {
+        return coursingrating6;
+    }
+
+    public void setCoursingrating6(int coursingrating6) {
+        this.coursingrating6 = coursingrating6;
+    }
+
+    public int getCoursingrating7() {
+        return coursingrating7;
+    }
+
+    public void setCoursingrating7(int coursingrating7) {
+        this.coursingrating7 = coursingrating7;
+    }
+
+    public int getCoursingrating8() {
+        return coursingrating8;
+    }
+
+    public void setCoursingrating8(int coursingrating8) {
+        this.coursingrating8 = coursingrating8;
+    }
+
+    public int getCoursingrating9() {
+        return coursingrating9;
+    }
+
+    public void setCoursingrating9(int coursingrating9) {
+        this.coursingrating9 = coursingrating9;
+    }
+
+    public int getCoursingrating10() {
+        return coursingrating10;
+    }
+
+    public void setCoursingrating10(int coursingrating10) {
+        this.coursingrating10 = coursingrating10;
+    }
+
+    public int getCoursingrating11() {
+        return coursingrating11;
+    }
+
+    public void setCoursingrating11(int coursingrating11) {
+        this.coursingrating11 = coursingrating11;
+    }
+
+    public int getCoursingrating12() {
+        return coursingrating12;
+    }
+
+    public void setCoursingrating12(int coursingrating12) {
+        this.coursingrating12 = coursingrating12;
+    }
+
+    private int coursingrating1;
+    private int coursingrating2;
+    private int coursingrating3;
+    private int coursingrating4;
+    private int coursingrating5;
+    private int coursingrating6;
+    private int coursingrating7;
+    private int coursingrating8;
+    private int coursingrating9;
+    private int coursingrating10;
+    private int coursingrating11;
+    private int coursingrating12;
+
 
     public String getDogname() {
         return dogname;
@@ -85,38 +186,6 @@ public class TournamentDog implements Serializable {
     public int hashCode() {
         return Objects.hash(dog, tournament);
     }
-
-   /* public static class TournamentDogId implements Serializable {
-
-        private Tournament tournament;
-        private Dog dog;
-
-        public TournamentDogId() {}
-
-        public TournamentDogId(Tournament tournamentId, Dog dogId) {
-            this.tournament = tournamentId;
-            this.dog = dogId;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-
-            if (o == this) {
-                return true;
-            }
-            if (!(o instanceof TournamentDog)) {
-                return false;
-            }
-            TournamentDog assignedRole = (TournamentDog) o;
-            return Objects.equals(tournament, assignedRole.getTournament()) &&
-                    Objects.equals(dog, assignedRole.getDog());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(tournament, dog);
-        }
-    }*/
 
 
 }

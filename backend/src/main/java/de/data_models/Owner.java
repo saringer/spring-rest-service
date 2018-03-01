@@ -19,7 +19,6 @@ public class Owner {
     private String postalcode;
     private String city;
     private String country;
-    private Date date_of_birth;
     @JsonBackReference
     @OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
     private Set<Dog> dogs;
@@ -86,14 +85,6 @@ public class Owner {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Date getDate_of_birth() {
-        return date_of_birth;
-    }
-
-    public void setDate_of_birth(Date date_of_birth) {
-        this.date_of_birth = date_of_birth;
     }
 
 

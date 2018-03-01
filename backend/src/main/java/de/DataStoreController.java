@@ -1,7 +1,5 @@
 package de;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import de.data_models.*;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +44,9 @@ public class DataStoreController {
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/tournamentdogs", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveTournamentDogJson(@RequestBody TournamentDog request) {
-        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId() + "Wertung: " + request.getJudging());
+        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId() + "Wertung: " + request.getCoursingrating1());
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
         dog.addTournamentDog(request);
@@ -62,7 +60,7 @@ public class DataStoreController {
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/tournamentdogs", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public void saveTournamentDogPlainText(@RequestBody TournamentDog request) {
         System.out.println("kam an text");
     }

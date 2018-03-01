@@ -1,7 +1,6 @@
 package de.data_models;
 
 import com.fasterxml.jackson.annotation.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.*;
@@ -49,7 +48,7 @@ public class Dog {
             if (this.tournamentDogs.get(i).getTournament().getId() == tournamentDog.getTournament().getId()) {
                     System.out.println("Test"+ tournamentDog.getTournament().getId());
                     //this.tournamentDogs.set(i, tournamentDog);
-                    this.tournamentDogs.get(i).setJudging(tournamentDog.getJudging());
+                    this.tournamentDogs.get(i).setCoursingrating1(tournamentDog.getCoursingrating1());
                     isAlreadyInList = true;
                     break;
                 }
