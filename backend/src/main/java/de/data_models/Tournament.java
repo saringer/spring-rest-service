@@ -86,18 +86,7 @@ public class Tournament {
 
     public Date date;
 
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    //@JsonManagedReference
-    private Set<Dog> participating_dogs;
 
-
-    public Set<Dog> getParticipating_dogs() {
-        return participating_dogs;
-    }
-
-    public void setParticipating_dogs(Set<Dog> participating_dogs) {
-        this.participating_dogs = participating_dogs;
-    }*/
 
     public Set<Judge> getParticipating_judges() {
         return participating_judges;
