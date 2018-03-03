@@ -88,18 +88,27 @@ public class Tournament {
 
 
 
-    public Set<Judge> getParticipating_judges() {
+    public List<Judge> getParticipating_judges() {
         return participating_judges;
     }
 
-    public void setParticipating_judges(Set<Judge> participating_judges) {
+    public void setParticipating_judges(List<Judge> participating_judges) {
         this.participating_judges = participating_judges;
+    }
+
+    public void removeJudge(long judge_id) {
+        for (int i=0;i<participating_judges.size();i++) {
+            if (participating_judges.get(i).getId() == judge_id) {
+                participating_judges.remove(i);
+                break;
+            }
+        }
     }
 
 
     @ManyToMany(fetch = FetchType.LAZY)
     //@JsonManagedReference
-    private Set<Judge> participating_judges;
+    private List<Judge> participating_judges;
 
 
 

@@ -39,18 +39,15 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public Dog saveDogPlainText(@RequestBody Dog request) {
-        System.out.println("kam an text");
         return dogRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveTournamentDogJson(@RequestBody TournamentDog request) {
-        System.out.println("kam an tournamentdog dogid: " + request.getDog().getId() + " TournamentID: " + request.getTournament().getId() + "Wertung1: " + request.getCoursingrating1() + "Werting2:" + request.getCoursingrating2());
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
         dog.addTournamentDog(request);
-        //dog.getTournamentDogs().add(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
 
@@ -62,20 +59,17 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public void saveTournamentDogPlainText(@RequestBody TournamentDog request) {
-        System.out.println("kam an text");
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Owner saveOwnerJson(@RequestBody Owner request) {
-        System.out.println("kam an owner" + request.getFirstname());
         return ownerRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public Owner saveOwnerPlainText(@RequestBody Owner request) {
-        System.out.println("kam an owner" + request.getFirstname());
         return ownerRepository.save(request);
     }
 
@@ -83,7 +77,6 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournament", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Tournament saveTournamentJson(@RequestBody Tournament request) {
-        System.out.println("kam an tournament" + request.getTitle());
         return tournamentRepository.save(request);
     }
     @CrossOrigin

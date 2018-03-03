@@ -43,10 +43,8 @@ public class Dog {
     public void addTournamentDog(TournamentDog tournamentDog) {
         boolean isAlreadyInList = false;
         for (int i = 0; i < this.tournamentDogs.size(); i++) {
-            System.out.println("soweit");
 
             if (this.tournamentDogs.get(i).getTournament().getId() == tournamentDog.getTournament().getId()) {
-                System.out.println("Test" + tournamentDog.getTournament().getId());
                 //this.tournamentDogs.set(i, tournamentDog);
                 this.tournamentDogs.get(i).setCoursingrating1(tournamentDog.getCoursingrating1());
                 this.tournamentDogs.get(i).setCoursingrating2(tournamentDog.getCoursingrating2());
@@ -66,15 +64,6 @@ public class Dog {
                 this.tournamentDogs.get(i).setRacetimewinner(tournamentDog.getRacetimewinner());
 
 
-
-
-
-
-
-
-
-
-
                 isAlreadyInList = true;
                 break;
             }
@@ -84,24 +73,22 @@ public class Dog {
         }
     }
 
+    public void deleteTournamentDog(Long tournament_id) {
+        boolean isAlreadyInList = false;
+        for (int i = 0; i < this.tournamentDogs.size(); i++) {
+
+            if (this.tournamentDogs.get(i).getTournament().getId() == tournament_id) {
+                this.tournamentDogs.remove(i);
+                break;
+            }
+        }
+    }
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TournamentDog> tournamentDogs = new ArrayList<>();
 
-
-
-    /*public Set<Tournament> getTournaments() {
-        return tournaments;
-    }
-
-    public void setTournaments(Set<Tournament> tournaments) {
-        this.tournaments = tournaments;
-    }
-
-    @ManyToMany(mappedBy = "participating_dogs", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<Tournament> tournaments;*/
 
     public Dog(String passport_no, String name, String race, String sex, String chip_no,
                String coat_colour, Breeder breeder, Date date_of_birth, Owner owner) {

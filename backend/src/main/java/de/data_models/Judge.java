@@ -81,15 +81,15 @@ public class Judge {
 
 
 
-    public Set<Tournament> getTournaments() {
+    public List<Tournament> getTournaments() {
         return tournaments;
     }
 
-    public void setTournaments(Set<Tournament> tournaments) {
+    public void setTournaments(List<Tournament> tournaments) {
         this.tournaments = tournaments;
     }
 
     @ManyToMany(mappedBy = "participating_judges",fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Tournament> tournaments;
+    private List<Tournament> tournaments;
 }
