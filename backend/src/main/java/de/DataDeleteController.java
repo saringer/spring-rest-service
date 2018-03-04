@@ -3,9 +3,7 @@ package de;
 import de.data_models.Dog;
 import de.data_models.Judge;
 import de.data_models.Tournament;
-import de.repositories.DogRepository;
-import de.repositories.JudgeRepository;
-import de.repositories.TournamentRepository;
+import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +21,10 @@ public class DataDeleteController {
     TournamentRepository tournamentRepository;
     @Autowired
     JudgeRepository judgeRepository;
+    @Autowired
+    BreederRepository breederRepository;
+    @Autowired
+    ClubRepository clubRepository;
 
     @CrossOrigin
     @DeleteMapping("/tournamentdog/{dog_id}/{tournament_id}")
@@ -43,6 +45,18 @@ public class DataDeleteController {
         tournament.removeJudge(judge_id);
         judgeRepository.save(judge);
         tournamentRepository.save(tournament);
+
+    }
+    @CrossOrigin
+    @DeleteMapping("/breeder/{breeder_id}")
+    public void deleteBreeder(@PathVariable long breeder_id) {
+        breederRepository.delete(breeder_id);
+
+    }
+    @CrossOrigin
+    @DeleteMapping("/club/{club_id}")
+    public void deleteClub(@PathVariable long club_id) {
+        clubRepository.delete(club_id);
 
     }
 }
