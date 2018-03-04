@@ -25,6 +25,8 @@ public class DataDeleteController {
     BreederRepository breederRepository;
     @Autowired
     ClubRepository clubRepository;
+    @Autowired
+    OwnerRepository ownerRepository;
 
     @CrossOrigin
     @DeleteMapping("/tournamentdog/{dog_id}/{tournament_id}")
@@ -57,6 +59,11 @@ public class DataDeleteController {
     @DeleteMapping("/club/{club_id}")
     public void deleteClub(@PathVariable long club_id) {
         clubRepository.delete(club_id);
+    }
 
+    @CrossOrigin
+    @DeleteMapping("/owner/{club_id}")
+    public void deleteOwner(@PathVariable long owner_id) {
+        ownerRepository.delete(owner_id);
     }
 }
