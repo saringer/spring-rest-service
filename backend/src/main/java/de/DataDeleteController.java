@@ -62,7 +62,7 @@ public class DataDeleteController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/owner/{club_id}")
+    @DeleteMapping("/owner/{owner_id}")
     public void deleteOwner(@PathVariable long owner_id) {
         ownerRepository.delete(owner_id);
     }

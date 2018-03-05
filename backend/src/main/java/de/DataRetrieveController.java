@@ -33,14 +33,13 @@ public class DataRetrieveController {
     EntityManager em;
 
 
-    @CrossOrigin
-    @RequestMapping(value = "/dogs2",method = RequestMethod.GET)
-    public List<Dog> getDogs2() {
-        System.out.println("all dogs");
-        Query query = em.createNativeQuery("SELECT * FROM tournament_dog", TournamentDog.class);
-        return query.getResultList();
-    }
 
+    @CrossOrigin
+    @RequestMapping(value = "/dog/{dog_id}",method = RequestMethod.GET)
+    public Dog getDog(@PathVariable long dog_id) {
+        System.out.println(dog_id);
+        return dogRepository.findById(dog_id);
+    }
     @CrossOrigin
     @RequestMapping(value = "/dogs",method = RequestMethod.GET)
     public List<Dog> getDogs() {
@@ -62,6 +61,12 @@ public class DataRetrieveController {
     public List<Owner> getOwners() {
         System.out.println("all owners");
         return ownerRepository.findAll();
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/tournament/{tournament_id}",method = RequestMethod.GET)
+    public Tournament getTournament(@PathVariable long tournament_id) {
+        System.out.println(tournament_id);
+        return tournamentRepository.findById(tournament_id);
     }
     @CrossOrigin
     @RequestMapping(value = "/tournaments", method = RequestMethod.GET)

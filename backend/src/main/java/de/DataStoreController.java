@@ -45,6 +45,7 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveTournamentDogJson(@RequestBody TournamentDog request) {
+        System.out.println("saveTournamentDogJson");
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
         dog.addTournamentDog(request);
@@ -64,6 +65,7 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Owner saveOwnerJson(@RequestBody Owner request) {
+        System.out.println("saveOwnerJson");
         return ownerRepository.save(request);
     }
     @CrossOrigin
@@ -77,6 +79,7 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournament", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Tournament saveTournamentJson(@RequestBody Tournament request) {
+        System.out.println("saveTournamentJson");
         return tournamentRepository.save(request);
     }
     @CrossOrigin

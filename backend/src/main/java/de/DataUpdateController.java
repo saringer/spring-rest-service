@@ -24,7 +24,7 @@ public class DataUpdateController {
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/tournaments/{id}")
+    @PutMapping("/tournament/{id}")
     public Tournament updateTournamentJson(@PathVariable long id, @RequestBody Tournament request) {
         System.out.println("tournament update: " + request.getTitle());
         return tournamentRepository.save(request);
