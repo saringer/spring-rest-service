@@ -3,6 +3,7 @@ package de.data_models;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -16,8 +17,11 @@ public class Dog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String passport_no;
+    @NotNull
     private String name;
+    @NotNull
     private String race;
+    @NotNull
     private String sex;
     @ManyToOne(cascade = CascadeType.MERGE)
     // @JsonBackReference

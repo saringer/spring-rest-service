@@ -31,7 +31,7 @@ public class DataStoreController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/dog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dog saveDogJson(@RequestBody Dog request) {
-        System.out.println("kam an json" + request.getName() + " OwnerID: " + request.getOwner().getFirstname());
+        System.out.println(" Hund kam an json" + request.getName());
         return dogRepository.save(request);
     }
 
