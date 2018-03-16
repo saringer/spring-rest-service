@@ -3,7 +3,6 @@ package de.data_models;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Entity
@@ -13,17 +12,17 @@ import java.util.*;
 public class Tournament {
 
 
-    public List<TournamentDog> getTournamentDogs() {
-        return tournamentDogs;
+    public List<Coursing> getCoursings() {
+        return coursings;
     }
 
-    public void setTournamentDogs(List<TournamentDog> tournamentDogs) {
-        this.tournamentDogs = tournamentDogs;
+    public void setCoursings(List<Coursing> coursings) {
+        this.coursings = coursings;
     }
 
 
     @OneToMany(mappedBy = "tournament")
-    private List<TournamentDog> tournamentDogs = new ArrayList<>();
+    private List<Coursing> coursings = new ArrayList<>();
 
 
     public Tournament() {

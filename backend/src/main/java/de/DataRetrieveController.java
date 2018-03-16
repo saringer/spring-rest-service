@@ -1,14 +1,17 @@
 package de;
 
 import de.data_models.*;
+import de.data_transfer_objects.Coursing.CoursingResult;
+import de.data_transfer_objects.Coursing.SumOfTopFiveRatings;
+import de.data_transfer_objects.Coursing.TotalParticipation;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -33,6 +36,24 @@ public class DataRetrieveController {
     EntityManager em;
 
 
+    private Long getTopFiveCoursingRatings(Long dog_id) {
+        SumOfTopFiveRatings sum = (SumOfTopFiveRatings) em.createNativeQuery("SELECT SUM(coursing_rating) FROM (SELECT coursing.coursing_rating FROM coursing WHERE coursing.dog_id = " + dog_id + " ORDER BY coursing.coursing_rating DESC LIMIT 5) AS subquery", "sumOfTopFiveRatings").getSingleResult();
+        return  sum.getSum();
+    }
+
+    private Long getAverage(Long totalRatings, Long participations) {
+        Long result = null;
+        if (totalRatings > 0) {
+            if (participations > 5) {
+                result = totalRatings / 5;
+            }
+            else {
+                result = totalRatings / participations;
+
+            }
+        }
+        return result;
+    }
 
     @CrossOrigin
     @RequestMapping(value = "/dog/{dog_id}",method = RequestMethod.GET)
@@ -48,13 +69,13 @@ public class DataRetrieveController {
     }
     @CrossOrigin
     @RequestMapping(value = "/tournamentdogs/{id}",method = RequestMethod.GET)
-    public List<TournamentDog> getTournamentDog(@PathVariable long id) {
+    public List<Coursing> getTournamentDog(@PathVariable long id) {
         System.out.println("all tournamentdogs");
         if (tournamentRepository.findById(id) !=null) {
-            return tournamentRepository.findById(id).getTournamentDogs();
+            return tournamentRepository.findById(id).getCoursings();
         }
         else return null;
-        //return tournamentRepository.findOne(id).getTournamentDogs();
+        //return tournamentRepository.findOne(id).getCoursings();
     }
     @CrossOrigin
     @RequestMapping(value = "/owners", method = RequestMethod.GET)
@@ -91,5 +112,46 @@ public class DataRetrieveController {
     public List<Judge> getJudges() {
         System.out.println("all Judges");
         return judgeRepository.findAll();
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/coursings/{coursing_class}/{gender}", method = RequestMethod.GET)
+    public List<CoursingResult> getCoursings(@PathVariable String coursing_class, @PathVariable String gender) {
+        System.out.println("all Coursings");
+        // Receive a list of Dogid, Dogname and total number of participations
+        List<TotalParticipation> totalparticipationcoursing;
+        if (coursing_class.equalsIgnoreCase("international")) {
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.sex = '" + gender + "'  GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+        }
+        else {
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+        }
+        // Extract collected data into CoursingResults
+        List<CoursingResult> coursingResults = new ArrayList<>();
+        for (int i=0; i<totalparticipationcoursing.size();i++) {
+            CoursingResult coursingResult = new CoursingResult();
+            Long totalParticipations = totalparticipationcoursing.get(i).getTotal_participation();
+            Long totalRatings = getTopFiveCoursingRatings(totalparticipationcoursing.get(i).getDog_id());
+
+
+            coursingResult.setTotalParticipations(totalParticipations);
+            coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
+            coursingResult.setTotalratings(getAverage(totalRatings,totalParticipations));
+            if (totalParticipations > 5) {
+                coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
+            }
+            else {
+                coursingResult.setMaxNoRatings(totalParticipations);
+            }
+            // If Owner exists add his/her firstname and lastname to CoursingResult
+            if (dogRepository.findById(totalparticipationcoursing.get(i).getDog_id()).getOwner() != null) {
+                Owner owner = dogRepository.findById(totalparticipationcoursing.get(i).getDog_id()).getOwner();
+                coursingResult.setOwnername(owner.getFirstname() + " " + owner.getLastname());
+            }
+            coursingResults.add(coursingResult);
+        }
+        //Collections.sort(coursingResults, Comparator.comparingLong(CoursingResult ::getTotalratings));
+
+        // Receive sum of top 5 ratings for a given dogid
+        return  coursingResults;
     }
 }

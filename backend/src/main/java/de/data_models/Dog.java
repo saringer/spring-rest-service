@@ -36,36 +36,26 @@ public class Dog {
     private Owner owner;
 
 
-    public List<TournamentDog> getTournamentDogs() {
-        return tournamentDogs;
+    public List<Coursing> getCoursings() {
+        return coursings;
     }
 
-    public void setTournamentDogs(List<TournamentDog> tournamentDogs) {
-        this.tournamentDogs = tournamentDogs;
+    public void setCoursings(List<Coursing> coursings) {
+        this.coursings = coursings;
     }
 
-    public void addTournamentDog(TournamentDog tournamentDog) {
+    public void addCoursing(Coursing coursing) {
         boolean isAlreadyInList = false;
-        for (int i = 0; i < this.tournamentDogs.size(); i++) {
+        for (int i = 0; i < this.coursings.size(); i++) {
 
-            if (this.tournamentDogs.get(i).getTournament().getId() == tournamentDog.getTournament().getId()) {
-                //this.tournamentDogs.set(i, tournamentDog);
-                this.tournamentDogs.get(i).setCoursingrating1(tournamentDog.getCoursingrating1());
-                this.tournamentDogs.get(i).setCoursingrating2(tournamentDog.getCoursingrating2());
-                this.tournamentDogs.get(i).setCoursingrating3(tournamentDog.getCoursingrating3());
-                this.tournamentDogs.get(i).setCoursingrating4(tournamentDog.getCoursingrating4());
-                this.tournamentDogs.get(i).setCoursingrating5(tournamentDog.getCoursingrating5());
-                this.tournamentDogs.get(i).setCoursingrating6(tournamentDog.getCoursingrating6());
-                this.tournamentDogs.get(i).setCoursingrating7(tournamentDog.getCoursingrating7());
-                this.tournamentDogs.get(i).setCoursingrating8(tournamentDog.getCoursingrating8());
-                this.tournamentDogs.get(i).setCoursingrating9(tournamentDog.getCoursingrating9());
-                this.tournamentDogs.get(i).setCoursingrating10(tournamentDog.getCoursingrating10());
-                this.tournamentDogs.get(i).setCoursingrating11(tournamentDog.getCoursingrating11());
-                this.tournamentDogs.get(i).setCoursingrating12(tournamentDog.getCoursingrating12());
+            if (this.coursings.get(i).getTournament().getId() == coursing.getTournament().getId()) {
+                //this.coursings.set(i, coursing);
+                this.coursings.get(i).setCoursingRating(coursing.getCoursingRating());
+                this.coursings.get(i).setCoursingPlacement(coursing.getCoursingPlacement());
+                this.coursings.get(i).setCoursingClass(coursing.getCoursingClass());
 
-                this.tournamentDogs.get(i).setRaceplacement(tournamentDog.getRaceplacement());
-                this.tournamentDogs.get(i).setRacetime(tournamentDog.getRacetime());
-                this.tournamentDogs.get(i).setRacetimewinner(tournamentDog.getRacetimewinner());
+
+
 
 
                 isAlreadyInList = true;
@@ -73,16 +63,16 @@ public class Dog {
             }
         }
         if (!isAlreadyInList) {
-            this.tournamentDogs.add(tournamentDog);
+            this.coursings.add(coursing);
         }
     }
 
-    public void deleteTournamentDog(Long tournament_id) {
+    public void deleteCoursing(Long tournament_id) {
         boolean isAlreadyInList = false;
-        for (int i = 0; i < this.tournamentDogs.size(); i++) {
+        for (int i = 0; i < this.coursings.size(); i++) {
 
-            if (this.tournamentDogs.get(i).getTournament().getId() == tournament_id) {
-                this.tournamentDogs.remove(i);
+            if (this.coursings.get(i).getTournament().getId() == tournament_id) {
+                this.coursings.remove(i);
                 break;
             }
         }
@@ -91,7 +81,7 @@ public class Dog {
 
     @JsonIgnore
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TournamentDog> tournamentDogs = new ArrayList<>();
+    private List<Coursing> coursings = new ArrayList<>();
 
 
     public Dog(String passport_no, String name, String race, String sex, String chip_no,

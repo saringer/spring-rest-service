@@ -44,11 +44,11 @@ public class DataStoreController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveTournamentDogJson(@RequestBody TournamentDog request) {
+    public void saveTournamentDogJson(@RequestBody Coursing request) {
         System.out.println("saveTournamentDogJson");
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
-        dog.addTournamentDog(request);
+        dog.addCoursing(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
 
@@ -59,7 +59,7 @@ public class DataStoreController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
-    public void saveTournamentDogPlainText(@RequestBody TournamentDog request) {
+    public void saveTournamentDogPlainText(@RequestBody Coursing request) {
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)

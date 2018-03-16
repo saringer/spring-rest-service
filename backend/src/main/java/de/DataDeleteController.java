@@ -7,9 +7,6 @@ import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-
-
 
 @RestController
 @RequestMapping("/delete")
@@ -34,7 +31,7 @@ public class DataDeleteController {
         System.out.println("Delete dogID: " + dog_id + " tournamentId: " + tournament_id);
         Dog dog = dogRepository.findOne(dog_id);
         Tournament tournament = tournamentRepository.findOne(tournament_id);
-        dog.deleteTournamentDog(tournament_id);
+        dog.deleteCoursing(tournament_id);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
 
