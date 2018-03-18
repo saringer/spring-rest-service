@@ -1,10 +1,7 @@
 package de;
 
 import de.data_models.*;
-import de.repositories.BreederRepository;
-import de.repositories.ClubRepository;
-import de.repositories.OwnerRepository;
-import de.repositories.TournamentRepository;
+import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,31 +18,39 @@ public class DataUpdateController {
     private ClubRepository clubRepository;
     @Autowired
     private OwnerRepository ownerRepository;
+    @Autowired
+    private JudgeRepository judgeRepository;
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/tournament/{id}")
-    public Tournament updateTournamentJson(@PathVariable long id, @RequestBody Tournament request) {
+    public Tournament updateTournament(@PathVariable long id, @RequestBody Tournament request) {
         System.out.println("tournament update: " + request.getTitle());
         return tournamentRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/breeder/{id}")
-    public Breeder updateBreederJson(@PathVariable long id, @RequestBody Breeder request) {
+    public Breeder updateBreeder(@PathVariable long id, @RequestBody Breeder request) {
         return breederRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/club/{id}")
-    public Club updateClubJson(@PathVariable long id, @RequestBody Club request) {
+    public Club updateClub(@PathVariable long id, @RequestBody Club request) {
         return clubRepository.save(request);
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/owner/{id}")
-    public Owner updateOwnerJson(@PathVariable long id, @RequestBody Owner request) {
+    public Owner updateOwner(@PathVariable long id, @RequestBody Owner request) {
         return ownerRepository.save(request);
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/judge/{id}")
+    public Judge updateJudge(@PathVariable long id, @RequestBody Judge request) {
+        return judgeRepository.save(request);
     }
 
 }
