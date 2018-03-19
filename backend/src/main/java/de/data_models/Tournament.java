@@ -83,7 +83,17 @@ public class Tournament {
     @JoinColumn
     private Club club;
 
-    public Date date;
+    private Date date;
+
+    public boolean isDouble_weighted() {
+        return double_weighted;
+    }
+
+    public void setDouble_weighted(boolean double_weighted) {
+        this.double_weighted = double_weighted;
+    }
+
+    private boolean double_weighted;
 
 
 

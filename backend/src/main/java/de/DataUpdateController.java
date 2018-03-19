@@ -20,6 +20,8 @@ public class DataUpdateController {
     private OwnerRepository ownerRepository;
     @Autowired
     private JudgeRepository judgeRepository;
+    @Autowired
+    private DogRepository dogRepository;
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
@@ -51,6 +53,13 @@ public class DataUpdateController {
     @PutMapping("/judge/{id}")
     public Judge updateJudge(@PathVariable long id, @RequestBody Judge request) {
         return judgeRepository.save(request);
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/dog/{id}")
+    public Dog updateDog(@PathVariable long id, @RequestBody Dog request) {
+        System.out.println(request);
+        return dogRepository.save(request);
     }
 
 }

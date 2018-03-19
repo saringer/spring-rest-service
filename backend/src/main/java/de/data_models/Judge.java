@@ -46,6 +46,16 @@ public class Judge {
     @NotNull
     private String lastname;
 
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    private String  nationality;
+
 
 
     public List<Tournament> getTournaments() {

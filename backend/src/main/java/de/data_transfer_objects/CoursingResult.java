@@ -1,4 +1,4 @@
-package de.data_transfer_objects.Coursing;
+package de.data_transfer_objects;
 
 public class CoursingResult {
 

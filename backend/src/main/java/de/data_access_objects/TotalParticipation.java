@@ -1,9 +1,4 @@
-package de.data_transfer_objects.Coursing;
-
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.SqlResultSetMapping;
-
+package de.data_access_objects;
 
 public class TotalParticipation {
 

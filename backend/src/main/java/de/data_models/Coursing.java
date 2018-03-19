@@ -1,7 +1,7 @@
 package de.data_models;
 
-import de.data_transfer_objects.Coursing.SumOfTopFiveRatings;
-import de.data_transfer_objects.Coursing.TotalParticipation;
+import de.data_access_objects.SumOfTopFiveRatings;
+import de.data_access_objects.TotalParticipation;
 
 import javax.persistence.*;
 import java.io.Serializable;

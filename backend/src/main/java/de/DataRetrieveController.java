@@ -1,17 +1,17 @@
 package de;
 
+import de.data_access_objects.SumOfTopFiveRatings;
+import de.data_access_objects.TotalParticipation;
 import de.data_models.*;
-import de.data_transfer_objects.Coursing.CoursingResult;
-import de.data_transfer_objects.Coursing.SumOfTopFiveRatings;
-import de.data_transfer_objects.Coursing.TotalParticipation;
+import de.data_transfer_objects.CoursingResult;
+
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
