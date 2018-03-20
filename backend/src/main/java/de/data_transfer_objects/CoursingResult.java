@@ -34,6 +34,7 @@ public class CoursingResult {
         this.totalratings = totalratings;
     }
 
+    Long maxNoRatings;
     private String dogname;
     private String ownername;
     private Long totalParticipations;
@@ -56,5 +57,5 @@ public class CoursingResult {
         this.maxNoRatings = maxNoRatings;
     }
 
-    Long maxNoRatings;
+
 }

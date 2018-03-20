@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -54,6 +56,7 @@ public class DataRetrieveController {
         }
         return result;
     }
+
 
     @CrossOrigin
     @RequestMapping(value = "/dog/{dog_id}",method = RequestMethod.GET)
@@ -120,13 +123,13 @@ public class DataRetrieveController {
         // Receive a list of Dogid, Dogname and total number of participations
         List<TotalParticipation> totalparticipationcoursing;
         if (coursing_class.equalsIgnoreCase("international")) {
-            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.sex = '" + gender + "'  GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.sex = '" + gender + "' AND dog.race = 'Whippet'  GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
         }
         else if (coursing_class.equalsIgnoreCase("national")) {
-            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.race = 'Whippet' GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
         }
         else {
-            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE dog.race = 'Whippet' GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
 
         }
         // Extract collected data into CoursingResults
@@ -153,9 +156,38 @@ public class DataRetrieveController {
             }
             coursingResults.add(coursingResult);
         }
-        //Collections.sort(coursingResults, Comparator.comparingLong(CoursingResult ::getTotalratings));
 
-        // Receive sum of top 5 ratings for a given dogid
-        return  coursingResults;
+        // Sort results regarding best ratings
+
+        Collections.sort(coursingResults, new Comparator<CoursingResult>() {
+            @Override
+            public int compare(CoursingResult arg0, CoursingResult arg1) {
+
+                if (arg0.getTotalratings() != null && arg1.getTotalratings() != null) {
+                    return arg0.getTotalratings().compareTo(arg1.getTotalratings());
+                }
+                if (arg0.getTotalratings() == null) {
+                    return 1;
+                }
+                return -1;
+            }
+        });
+       /*Collections.sort(coursingResults, new Comparator<CoursingResult>() {
+            @Override
+            public int compare(CoursingResult fruit2, CoursingResult fruit1)
+            {
+
+                return  fruit1.getTotalratings().compareTo(fruit2.getTotalratings());
+            }
+        });*/
+        // Add ranking
+        Collections.reverse(coursingResults);
+
+
+        for (int i=0;i<coursingResults.size();i++) {
+            coursingResults.get(i).setRanking(Integer.toUnsignedLong(i+1));
+        }
+
+        return coursingResults;
     }
 }
