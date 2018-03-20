@@ -34,10 +34,19 @@ public class CoursingResult {
         this.totalratings = totalratings;
     }
 
-    String dogname;
-    String ownername;
-    Long totalParticipations;
-    Long totalratings;
+    private String dogname;
+    private String ownername;
+    private Long totalParticipations;
+    private Long totalratings;
+    private Long ranking;
+
+    public Long getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Long ranking) {
+        this.ranking = ranking;
+    }
 
     public Long getMaxNoRatings() {
         return maxNoRatings;

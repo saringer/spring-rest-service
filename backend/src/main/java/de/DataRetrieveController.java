@@ -122,8 +122,12 @@ public class DataRetrieveController {
         if (coursing_class.equalsIgnoreCase("international")) {
             totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.sex = '" + gender + "'  GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
         }
-        else {
+        else if (coursing_class.equalsIgnoreCase("national")) {
             totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id WHERE coursing.coursing_class = '" + coursing_class + "' GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+        }
+        else {
+            totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
+
         }
         // Extract collected data into CoursingResults
         List<CoursingResult> coursingResults = new ArrayList<>();
