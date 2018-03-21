@@ -163,6 +163,11 @@ public class Dog {
         return breeder;
     }
 
+    public void setBreeder(Breeder breeder) {
+        this.breeder = breeder;
+    }
+
+
 
     public Date getDate_of_birth() {
         return date_of_birth;
@@ -175,6 +180,9 @@ public class Dog {
 
     public Owner getOwner() {
         return owner;
+    }
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
 }

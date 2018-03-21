@@ -1,6 +1,6 @@
 package de.data_models;
 
-import de.data_access_objects.SumOfTopFiveRatings;
+import de.data_access_objects.Rating;
 import de.data_access_objects.TotalParticipation;
 
 import javax.persistence.*;
@@ -25,12 +25,13 @@ import java.util.Objects;
                 }
         ),
         @SqlResultSetMapping(
-                name = "sumOfTopFiveRatings",
+                name = "ratings",
                 classes = {
                         @ConstructorResult(
-                                targetClass = SumOfTopFiveRatings.class,
+                                targetClass = Rating.class,
                                 columns = {
-                                        @ColumnResult(name = "sum", type = Long.class),
+                                        @ColumnResult(name = "coursing_rating", type = Long.class),
+                                        @ColumnResult(name = "double_weighted", type = Boolean.class)
                                 }
                         )
                 }
