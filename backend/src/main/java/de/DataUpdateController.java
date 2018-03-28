@@ -58,8 +58,18 @@ public class DataUpdateController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/dog/{id}")
     public Dog updateDog(@PathVariable long id, @RequestBody Dog request) {
+        Dog fetchedDog = dogRepository.findById(request.getId());
+        fetchedDog.setName(request.getName());
+        fetchedDog.setRace(request.getRace());
+        fetchedDog.setSex(request.getSex());
+        fetchedDog.setPassport_number(request.getPassport_no());
+        fetchedDog.setChip_no(request.getChip_no());
+        fetchedDog.setCoat_colour(request.getCoat_colour());
+        fetchedDog.setBreeder(request.getBreeder());
+        fetchedDog.setOwner(request.getOwner());
+        fetchedDog.setDate_of_birth(request.getDate_of_birth());
         System.out.println(request);
-        return dogRepository.save(request);
+        return dogRepository.save(fetchedDog);
     }
 
 }

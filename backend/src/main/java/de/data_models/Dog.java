@@ -23,18 +23,32 @@ public class Dog {
     private String race;
     @NotNull
     private String sex;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    // @JsonBackReference
+    @ManyToOne
     @JoinColumn(name = "breeder_id")
     private Breeder breeder;
     private String chip_no;
     private String coat_colour;
     private Date date_of_birth;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     // @JsonBackReference
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Coursing> coursings = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Race> races = new ArrayList<>();
+
+    public List<Race> getRaces() {
+        return races;
+    }
+
+    public void setRaces(List<Race> races) {
+        this.races = races;
+    }
 
     public List<Coursing> getCoursings() {
         return coursings;
@@ -53,9 +67,7 @@ public class Dog {
                 this.coursings.get(i).setCoursingRating(coursing.getCoursingRating());
                 this.coursings.get(i).setCoursingPlacement(coursing.getCoursingPlacement());
                 this.coursings.get(i).setCoursingClass(coursing.getCoursingClass());
-
-
-
+                this.coursings.get(i).setDogname(coursing.getDogname());
 
 
                 isAlreadyInList = true;
@@ -67,8 +79,27 @@ public class Dog {
         }
     }
 
-    public void deleteCoursing(Long tournament_id) {
+    public void addRace(Race race) {
         boolean isAlreadyInList = false;
+        for (int i = 0; i < this.races.size(); i++) {
+            if (this.races.get(i).getTournament().getId() == race.getTournament().getId()) {
+                //this.coursings.set(i, coursing);
+                this.races.get(i).setRaceTime(race.getRaceTime());
+                this.races.get(i).setRacePlacement(race.getRacePlacement());
+                this.races.get(i).setWithdrawn(race.isWithdrawn());
+                this.races.get(i).setNotfinished(race.isNotfinished());
+                this.races.get(i).setRaceClass(race.getRaceClass());
+
+                isAlreadyInList = true;
+                break;
+            }
+        }
+        if (!isAlreadyInList) {
+            this.races.add(race);
+        }
+    }
+
+    public void deleteCoursing(Long tournament_id) {
         for (int i = 0; i < this.coursings.size(); i++) {
 
             if (this.coursings.get(i).getTournament().getId() == tournament_id) {
@@ -78,10 +109,15 @@ public class Dog {
         }
     }
 
+    public void deleteRace(Long tournament_id) {
+        for (int i = 0; i < this.races.size(); i++) {
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Coursing> coursings = new ArrayList<>();
+            if (this.races.get(i).getTournament().getId() == tournament_id) {
+                this.races.remove(i);
+                break;
+            }
+        }
+    }
 
 
     public Dog(String passport_no, String name, String race, String sex, String chip_no,
@@ -168,7 +204,6 @@ public class Dog {
     }
 
 
-
     public Date getDate_of_birth() {
         return date_of_birth;
     }
@@ -181,6 +216,7 @@ public class Dog {
     public Owner getOwner() {
         return owner;
     }
+
     public void setOwner(Owner owner) {
         this.owner = owner;
     }

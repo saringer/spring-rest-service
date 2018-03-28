@@ -52,8 +52,7 @@ public class Breeder {
     private String lastname;
     private String kennelname;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "breeder", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "breeder",cascade=CascadeType.ALL)
     private Set<Dog> dogs;
 
 }

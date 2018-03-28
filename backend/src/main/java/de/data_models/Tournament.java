@@ -24,6 +24,16 @@ public class Tournament {
     @OneToMany(mappedBy = "tournament")
     private List<Coursing> coursings = new ArrayList<>();
 
+    public List<Race> getRaces() {
+        return races;
+    }
+
+    public void setRaces(List<Race> races) {
+        this.races = races;
+    }
+
+    @OneToMany(mappedBy = "tournament")
+    private List<Race> races = new ArrayList<>();
 
     public Tournament() {
 

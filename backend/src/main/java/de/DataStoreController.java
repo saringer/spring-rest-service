@@ -41,6 +41,7 @@ public class DataStoreController {
     public Dog saveDogPlainText(@RequestBody Dog request) {
         return dogRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,9 +52,17 @@ public class DataStoreController {
         dog.addCoursing(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
-
-
-
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/tournamentdograce", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveTournamentDogRaceJson(@RequestBody Race request) {
+        System.out.println("saveTournamentDogRaceJson");
+        Dog dog = dogRepository.findOne(request.getDog().getId());
+        Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
+        dog.addRace(request);
+        tournamentRepository.save(tournament);
+        dogRepository.save(dog);
     }
 
     @CrossOrigin
@@ -61,6 +70,7 @@ public class DataStoreController {
     @RequestMapping(value = "/tournamentdog", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public void saveTournamentDogPlainText(@RequestBody Coursing request) {
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +78,7 @@ public class DataStoreController {
         System.out.println("saveOwnerJson");
         return ownerRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/owner", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
@@ -82,6 +93,7 @@ public class DataStoreController {
         System.out.println("saveTournamentJson");
         return tournamentRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/tournament", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
@@ -89,6 +101,7 @@ public class DataStoreController {
         System.out.println("kam an tournament" + request.getTitle());
         return tournamentRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -96,6 +109,7 @@ public class DataStoreController {
         System.out.println("kam an breeder: " + request.getKennelname());
         return breederRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/breeder", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
@@ -104,6 +118,7 @@ public class DataStoreController {
         return breederRepository.save(request);
 
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
@@ -112,6 +127,7 @@ public class DataStoreController {
         return clubRepository.save(request);
 
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/club", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -119,6 +135,7 @@ public class DataStoreController {
         System.out.println("kam an club" + request.getClubname());
         return clubRepository.save(request);
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/judge", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
@@ -127,6 +144,7 @@ public class DataStoreController {
         return judgeRepository.save(request);
 
     }
+
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/judge", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

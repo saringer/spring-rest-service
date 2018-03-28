@@ -37,6 +37,17 @@ public class DataDeleteController {
 
     }
     @CrossOrigin
+    @DeleteMapping("/tournamentdograce/{dog_id}/{tournament_id}")
+    public void deleteTournamentDogRace(@PathVariable long dog_id, @PathVariable long tournament_id) {
+        System.out.println("Delete dogID: " + dog_id + " tournamentId: " + tournament_id);
+        Dog dog = dogRepository.findOne(dog_id);
+        Tournament tournament = tournamentRepository.findOne(tournament_id);
+        dog.deleteRace(tournament_id);
+        tournamentRepository.save(tournament);
+        dogRepository.save(dog);
+
+    }
+    @CrossOrigin
     @DeleteMapping("/tournamentjudge/{judge_id}/{tournament_id}")
     public void deleteTournamentJudge(@PathVariable long judge_id, @PathVariable long tournament_id) {
         Judge judge = judgeRepository.findOne(judge_id);

@@ -1,7 +1,7 @@
 package de.data_models;
 
-import de.data_access_objects.Rating;
-import de.data_access_objects.TotalParticipation;
+import de.data_access_objects.coursing.Rating;
+import de.data_access_objects.coursing.TotalParticipation;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -55,6 +55,8 @@ public class Coursing implements Serializable {
     private int coursingRating;
     private int coursingPlacement;
     private String coursingClass;
+    private String dogname;
+
 
     public String getCoursingClass() {
         return coursingClass;
@@ -91,7 +93,6 @@ public class Coursing implements Serializable {
     }
 
 
-    private String dogname;
 
 
     public Dog getDog() {

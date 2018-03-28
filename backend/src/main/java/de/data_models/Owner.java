@@ -19,7 +19,7 @@ public class Owner {
     @NotNull
     private String lastname;
     @JsonBackReference
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Dog> dogs;
 
     public Set<Dog> getDogs() {

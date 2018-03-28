@@ -1,10 +1,11 @@
 package de;
 
-import de.data_access_objects.Rating;
-import de.data_access_objects.TotalParticipation;
+import de.data_access_objects.coursing.Rating;
+import de.data_access_objects.coursing.TotalParticipation;
 import de.data_models.*;
 import de.data_transfer_objects.CoursingResult;
 
+import de.data_transfer_objects.RaceDTO;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -84,6 +85,32 @@ public class DataRetrieveController {
         System.out.println("all tournamentdogs");
         if (tournamentRepository.findById(id) != null) {
             return tournamentRepository.findById(id).getCoursings();
+        } else return null;
+        //return tournamentRepository.findOne(id).getCoursings();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/races/{id}", method = RequestMethod.GET)
+    public List<RaceDTO> getRace(@PathVariable long id) {
+        System.out.println("all races");
+        if (tournamentRepository.findById(id) != null) {
+            List<RaceDTO> dtoList = new ArrayList<>();
+
+            List<Race> races = tournamentRepository.findById(id).getRaces();
+            for (int i=0; i<races.size();i++) {
+                RaceDTO dto = new RaceDTO();
+                dto.setDogname(dogRepository.getOne(races.get(i).getDog().getId()).getName());
+                dto.setNotfinished(races.get(i).isNotfinished());
+                dto.setWithdrawn(races.get(i).isWithdrawn());
+                dto.setRacePlacement(races.get(i).getRacePlacement());
+                dto.setRaceTime(races.get(i).getRaceTime());
+                dto.setTournamentid(id);
+                dto.setTournament(races.get(i).getTournament());
+                dto.setDog(races.get(i).getDog());
+                dto.setDistance(races.get(i).getDistance());
+                dtoList.add(dto);
+            }
+            return dtoList;
         } else return null;
         //return tournamentRepository.findOne(id).getCoursings();
     }
