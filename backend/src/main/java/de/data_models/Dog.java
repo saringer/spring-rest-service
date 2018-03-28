@@ -30,7 +30,6 @@ public class Dog {
     private String coat_colour;
     private Date date_of_birth;
     @ManyToOne
-    // @JsonBackReference
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

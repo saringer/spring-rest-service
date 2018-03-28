@@ -39,8 +39,6 @@ public class DataRetrieveController {
     EntityManager em;
 
 
-
-
     private Long getAverageOfBestRatings(Long dog_id) {
         Integer double_weighted_couter = 0;
         Long sum = Integer.toUnsignedLong(0);
@@ -51,17 +49,15 @@ public class DataRetrieveController {
                     double_weighted_couter++;
                     sum = sum + (ratings.get(i).getCoursing_rating() * 2);
 
-                }
-                else {
+                } else {
                     sum = sum + ratings.get(i).getCoursing_rating();
 
                 }
             }
 
 
-
         }
-        return sum / (ratings.size() + double_weighted_couter );
+        return sum / (ratings.size() + double_weighted_couter);
     }
 
 
@@ -84,7 +80,11 @@ public class DataRetrieveController {
     public List<Coursing> getTournamentDog(@PathVariable long id) {
         System.out.println("all tournamentdogs");
         if (tournamentRepository.findById(id) != null) {
-            return tournamentRepository.findById(id).getCoursings();
+            List<Coursing> coursings = tournamentRepository.findById(id).getCoursings();
+            for (int i=0;i<coursings.size();i++) {
+                coursings.get(i).setDogname(formatDogAndKennel(coursings.get(i).getDog().getId()));
+            }
+            return coursings;
         } else return null;
         //return tournamentRepository.findOne(id).getCoursings();
     }
@@ -97,9 +97,10 @@ public class DataRetrieveController {
             List<RaceDTO> dtoList = new ArrayList<>();
 
             List<Race> races = tournamentRepository.findById(id).getRaces();
-            for (int i=0; i<races.size();i++) {
+            for (int i = 0; i < races.size(); i++) {
                 RaceDTO dto = new RaceDTO();
-                dto.setDogname(dogRepository.getOne(races.get(i).getDog().getId()).getName());
+                //dto.setDogname(dogRepository.getOne(races.get(i).getDog().getId()).getName());
+                dto.setDogname(formatDogAndKennel(races.get(i).getDog().getId()));
                 dto.setNotfinished(races.get(i).isNotfinished());
                 dto.setWithdrawn(races.get(i).isWithdrawn());
                 dto.setRacePlacement(races.get(i).getRacePlacement());
@@ -176,12 +177,13 @@ public class DataRetrieveController {
         for (int i = 0; i < totalparticipationcoursing.size(); i++) {
             CoursingResult coursingResult = new CoursingResult();
             Long totalParticipations = totalparticipationcoursing.get(i).getTotal_participation();
-           // Long totalRatings = getTopFiveCoursingRatings(totalparticipationcoursing.get(i).getDog_id());
+            // Long totalRatings = getTopFiveCoursingRatings(totalparticipationcoursing.get(i).getDog_id());
 
             //getestRatings(totalparticipationcoursing.get(i).getDog_id());
 
             coursingResult.setTotalParticipations(totalParticipations);
-            coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
+            //coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
+            coursingResult.setDogname(formatDogAndKennel(totalparticipationcoursing.get(i).getDog_id()));
             coursingResult.setTotalratings(getAverageOfBestRatings(totalparticipationcoursing.get(i).getDog_id()));
             if (totalParticipations > 5) {
                 coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
@@ -220,5 +222,20 @@ public class DataRetrieveController {
         }
 
         return coursingResults;
+    }
+
+    private String formatDogAndKennel(Long dogID) {
+        Dog dog = dogRepository.getOne(dogID);
+
+        if (dog.getBreeder() != null) {
+            Breeder breeder = dog.getBreeder();
+            if (breeder.getAffix().equalsIgnoreCase("prefix")) {
+                return breeder.getKennelname() + ' ' + dog.getName();
+            } else {
+                return dog.getName() + ' ' + breeder.getKennelname();
+            }
+        } else {
+            return dog.getName();
+        }
     }
 }

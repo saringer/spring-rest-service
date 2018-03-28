@@ -71,6 +71,13 @@ public class Club {
     public String city;
     public String country;
 
+
+
+    //@JsonBackReference
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private Set<Tournament> tournaments;
+
+
    /* public List<Tournament> getTournaments() {
         return tournaments;
     }

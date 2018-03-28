@@ -52,6 +52,16 @@ public class Breeder {
     private String lastname;
     private String kennelname;
 
+    public String getAffix() {
+        return affix;
+    }
+
+    public void setAffix(String affix) {
+        this.affix = affix;
+    }
+
+    private String affix;
+
     @OneToMany(mappedBy = "breeder",cascade=CascadeType.ALL)
     private Set<Dog> dogs;
 

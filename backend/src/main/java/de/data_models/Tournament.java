@@ -89,8 +89,10 @@ public class Tournament {
     }
 
 
+    //@ManyToOne
+    //@JoinColumn
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "club_id")
     private Club club;
 
     private Date date;
