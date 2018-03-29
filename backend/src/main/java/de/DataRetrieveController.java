@@ -72,7 +72,20 @@ public class DataRetrieveController {
     @RequestMapping(value = "/dogs", method = RequestMethod.GET)
     public List<Dog> getDogs() {
         System.out.println("all dogs");
-        return dogRepository.findAll();
+        // Sort results regarding names
+        List<Dog> allDogs = dogRepository.findAll();
+        if (allDogs.size() > 0) {
+            Collections.sort(allDogs, new Comparator<Dog>() {
+                @Override
+                public int compare(final Dog object1, final Dog object2) {
+                    return object1.getName().compareTo(object2.getName());
+                }
+            });
+
+        }
+
+        return allDogs;
+
     }
 
     @CrossOrigin
@@ -120,7 +133,17 @@ public class DataRetrieveController {
     @RequestMapping(value = "/owners", method = RequestMethod.GET)
     public List<Owner> getOwners() {
         System.out.println("all owners");
-        return ownerRepository.findAll();
+        List<Owner> allowner = ownerRepository.findAll();
+        if (allowner.size() > 0) {
+            Collections.sort(allowner, new Comparator<Owner>() {
+                @Override
+                public int compare(final Owner object1, final Owner object2) {
+                    return object1.getLastname().compareTo(object2.getLastname());
+                }
+            });
+
+        }
+        return allowner;
     }
 
     @CrossOrigin
@@ -134,28 +157,68 @@ public class DataRetrieveController {
     @RequestMapping(value = "/tournaments", method = RequestMethod.GET)
     public List<Tournament> getTournaments() {
         System.out.println("all tournaments");
-        return tournamentRepository.findAll();
+        List<Tournament> alltournaments = tournamentRepository.findAll();
+        if (alltournaments.size() > 0) {
+            Collections.sort(alltournaments, new Comparator<Tournament>() {
+                @Override
+                public int compare(final Tournament object1, final Tournament object2) {
+                    return object1.getTitle().compareTo(object2.getTitle());
+                }
+            });
+
+        }
+        return alltournaments;
     }
 
     @CrossOrigin
     @RequestMapping(value = "/breeders", method = RequestMethod.GET)
     public List<Breeder> getBreeders() {
         System.out.println("all Breeder");
-        return breederRepository.findAll();
+        List<Breeder> allbreeders = breederRepository.findAll();
+        if (allbreeders.size() > 0) {
+            Collections.sort(allbreeders, new Comparator<Breeder>() {
+                @Override
+                public int compare(final Breeder object1, final Breeder object2) {
+                    return object1.getKennelname().compareTo(object2.getKennelname());
+                }
+            });
+
+        }
+        return allbreeders;
     }
 
     @CrossOrigin
     @RequestMapping(value = "/clubs", method = RequestMethod.GET)
     public List<Club> getClubs() {
         System.out.println("all Clubs");
-        return clubRepository.findAll();
+        List<Club> allclubs = clubRepository.findAll();
+        if (allclubs.size() > 0) {
+            Collections.sort(allclubs, new Comparator<Club>() {
+                @Override
+                public int compare(final Club object1, final Club object2) {
+                    return object1.getClubname().compareTo(object2.getClubname());
+                }
+            });
+
+        }
+        return allclubs;
     }
 
     @CrossOrigin
     @RequestMapping(value = "/judges", method = RequestMethod.GET)
     public List<Judge> getJudges() {
         System.out.println("all Judges");
-        return judgeRepository.findAll();
+        List<Judge> alljudges = judgeRepository.findAll();
+        if (alljudges.size() > 0) {
+            Collections.sort(alljudges, new Comparator<Judge>() {
+                @Override
+                public int compare(final Judge object1, final Judge object2) {
+                    return object1.getLastname().compareTo(object2.getLastname());
+                }
+            });
+
+        }
+        return alljudges;
     }
 
     @CrossOrigin
