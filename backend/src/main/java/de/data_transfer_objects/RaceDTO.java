@@ -5,28 +5,12 @@ import de.data_models.Tournament;
 
 public class RaceDTO {
 
-    public String getRaceTime() {
+    public Double getRaceTime() {
         return raceTime;
     }
 
-    public void setRaceTime(String raceTime) {
+    public void setRaceTime(Double raceTime) {
         this.raceTime = raceTime;
-    }
-
-    public Long getRacePlacement() {
-        return racePlacement;
-    }
-
-    public void setRacePlacement(Long racePlacement) {
-        this.racePlacement = racePlacement;
-    }
-
-    public boolean isWithdrawn() {
-        return withdrawn;
-    }
-
-    public void setWithdrawn(boolean withdrawn) {
-        this.withdrawn = withdrawn;
     }
 
     public boolean isNotfinished() {
@@ -53,12 +37,30 @@ public class RaceDTO {
         this.dogname = dogname;
     }
 
-    private String raceTime;
-    private Long racePlacement;
-    private boolean withdrawn;
+    private Double raceTime;
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    private Integer points;
     private boolean notfinished;
     private Long tournamentid;
     private String dogname;
+
+    public String getRaceClass() {
+        return raceClass;
+    }
+
+    public void setRaceClass(String raceClass) {
+        this.raceClass = raceClass;
+    }
+
+    private String raceClass;
 
     public Tournament getTournament() {
         return tournament;

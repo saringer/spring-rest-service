@@ -82,10 +82,10 @@ public class Dog {
         boolean isAlreadyInList = false;
         for (int i = 0; i < this.races.size(); i++) {
             if (this.races.get(i).getTournament().getId() == race.getTournament().getId()) {
+                System.out.println(this.races.get(i).getRaceClass());
                 //this.coursings.set(i, coursing);
                 this.races.get(i).setRaceTime(race.getRaceTime());
-                this.races.get(i).setRacePlacement(race.getRacePlacement());
-                this.races.get(i).setWithdrawn(race.isWithdrawn());
+                this.races.get(i).setPoints(race.getPoints());
                 this.races.get(i).setNotfinished(race.isNotfinished());
                 this.races.get(i).setRaceClass(race.getRaceClass());
 

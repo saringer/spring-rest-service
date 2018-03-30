@@ -55,29 +55,11 @@ public class Race implements Serializable {
     private String raceClass;
     private String dogname;
 
-    public String getRaceTime() {
-        return raceTime;
-    }
 
-    public void setRaceTime(String raceTime) {
-        this.raceTime = raceTime;
-    }
+    private Double raceTime;
+    private boolean notfinished;
+    private String distance;
 
-    public Long getRacePlacement() {
-        return racePlacement;
-    }
-
-    public void setRacePlacement(Long racePlacement) {
-        this.racePlacement = racePlacement;
-    }
-
-    public boolean isWithdrawn() {
-        return withdrawn;
-    }
-
-    public void setWithdrawn(boolean withdrawn) {
-        this.withdrawn = withdrawn;
-    }
 
     public boolean isNotfinished() {
         return notfinished;
@@ -96,11 +78,23 @@ public class Race implements Serializable {
     }
 
 
-    private String raceTime;
-   private Long racePlacement;
-   private boolean withdrawn;
-   private boolean notfinished;
-   private String distance;
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    private Integer points;
+
+    public Double getRaceTime() {
+        return raceTime;
+    }
+
+    public void setRaceTime(Double raceTime) {
+        this.raceTime = raceTime;
+    }
 
 
     @Override

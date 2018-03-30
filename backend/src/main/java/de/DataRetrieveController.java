@@ -123,16 +123,14 @@ public class DataRetrieveController {
             List<Race> races = tournamentRepository.findById(id).getRaces();
             for (int i = 0; i < races.size(); i++) {
                 RaceDTO dto = new RaceDTO();
-                //dto.setDogname(dogRepository.getOne(races.get(i).getDog().getId()).getName());
                 dto.setDogname(formatDogAndKennel(races.get(i).getDog().getId()));
                 dto.setNotfinished(races.get(i).isNotfinished());
-                dto.setWithdrawn(races.get(i).isWithdrawn());
-                dto.setRacePlacement(races.get(i).getRacePlacement());
                 dto.setRaceTime(races.get(i).getRaceTime());
                 dto.setTournamentid(id);
                 dto.setTournament(races.get(i).getTournament());
                 dto.setDog(races.get(i).getDog());
                 dto.setDistance(races.get(i).getDistance());
+                dto.setRaceClass(races.get(i).getRaceClass());
                 dtoList.add(dto);
             }
             return dtoList;
