@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.persistence.EntityManager;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,25 +40,35 @@ public class DataRetrieveController {
     EntityManager em;
 
 
-    private Long getAverageOfBestRatings(Long dog_id) {
+    private String getAverageOfBestRatings(Long dog_id, String coursing_class) {
         Integer double_weighted_couter = 0;
-        Long sum = Integer.toUnsignedLong(0);
-        List<Rating> ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + "  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
-        for (int i = 0; i < ratings.size(); i++) {
-            if (ratings.get(i).getCoursing_rating() != null) {
-                if (ratings.get(i).isDouble_weighted()) {
-                    double_weighted_couter++;
-                    sum = sum + (ratings.get(i).getCoursing_rating() * 2);
-
-                } else {
-                    sum = sum + ratings.get(i).getCoursing_rating();
-
-                }
-            }
-
-
+        Double sum = 0.0;
+        List<Rating> ratings;
+        if (coursing_class.equalsIgnoreCase("all")) {
+            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + "  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
+        } else {
+            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " AND coursing.coursing_class = '" + coursing_class + "'  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         }
-        return sum / (ratings.size() + double_weighted_couter);
+        // minimum 5 coursings to be part of the competition
+        if (ratings.size() > 4) {
+            for (int i = 0; i < ratings.size(); i++) {
+                if (ratings.get(i).getCoursing_rating() != null) {
+                    if (ratings.get(i).isDouble_weighted()) {
+                        double_weighted_couter++;
+                        sum = sum + (ratings.get(i).getCoursing_rating() * 2);
+
+                    } else {
+                        sum = sum + ratings.get(i).getCoursing_rating();
+
+                    }
+                }
+
+
+            }
+            return String.format("%.3f", sum / (ratings.size() + double_weighted_couter));
+        } else {
+            return String.format("%.3f", sum);
+        }
     }
 
 
@@ -94,7 +105,7 @@ public class DataRetrieveController {
         System.out.println("all tournamentdogs");
         if (tournamentRepository.findById(id) != null) {
             List<Coursing> coursings = tournamentRepository.findById(id).getCoursings();
-            for (int i=0;i<coursings.size();i++) {
+            for (int i = 0; i < coursings.size(); i++) {
                 coursings.get(i).setDogname(formatDogAndKennel(coursings.get(i).getDog().getId()));
             }
             return coursings;
@@ -247,7 +258,7 @@ public class DataRetrieveController {
             coursingResult.setTotalParticipations(totalParticipations);
             //coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
             coursingResult.setDogname(formatDogAndKennel(totalparticipationcoursing.get(i).getDog_id()));
-            coursingResult.setTotalratings(getAverageOfBestRatings(totalparticipationcoursing.get(i).getDog_id()));
+            coursingResult.setTotalratings(getAverageOfBestRatings(totalparticipationcoursing.get(i).getDog_id(),coursing_class));
             if (totalParticipations > 5) {
                 coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
             } else {

@@ -26,11 +26,11 @@ public class CoursingResult {
         this.totalParticipations = totalParticipations;
     }
 
-    public Long getTotalratings() {
+    public String getTotalratings() {
         return totalratings;
     }
 
-    public void setTotalratings(Long totalratings) {
+    public void setTotalratings(String totalratings) {
         this.totalratings = totalratings;
     }
 
@@ -38,7 +38,7 @@ public class CoursingResult {
     private String dogname;
     private String ownername;
     private Long totalParticipations;
-    private Long totalratings;
+    private String totalratings;
     private Long ranking;
 
     public Long getRanking() {

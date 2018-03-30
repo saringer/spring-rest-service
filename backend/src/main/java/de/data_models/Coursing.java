@@ -30,7 +30,7 @@ import java.util.Objects;
                         @ConstructorResult(
                                 targetClass = Rating.class,
                                 columns = {
-                                        @ColumnResult(name = "coursing_rating", type = Long.class),
+                                        @ColumnResult(name = "coursing_rating", type = Double.class),
                                         @ColumnResult(name = "double_weighted", type = Boolean.class)
                                 }
                         )
@@ -52,7 +52,7 @@ public class Coursing implements Serializable {
     private Tournament tournament;
 
 
-    private int coursingRating;
+    private Double coursingRating;
     private int coursingPlacement;
     private String coursingClass;
     private String dogname;
@@ -67,11 +67,11 @@ public class Coursing implements Serializable {
     }
 
 
-    public int getCoursingRating() {
+    public Double getCoursingRating() {
         return coursingRating;
     }
 
-    public void setCoursingRating(int coursingRating) {
+    public void setCoursingRating(Double coursingRating) {
         this.coursingRating = coursingRating;
     }
 
