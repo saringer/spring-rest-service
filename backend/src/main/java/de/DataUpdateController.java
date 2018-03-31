@@ -4,7 +4,10 @@ import de.data_models.*;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityManager;
 
 @RestController
 @RequestMapping("/update")
@@ -22,6 +25,8 @@ public class DataUpdateController {
     private JudgeRepository judgeRepository;
     @Autowired
     private DogRepository dogRepository;
+    @Autowired
+    private EntityManager em;
 
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
@@ -53,6 +58,16 @@ public class DataUpdateController {
     @PutMapping("/judge/{id}")
     public Judge updateJudge(@PathVariable long id, @RequestBody Judge request) {
         return judgeRepository.save(request);
+    }
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/racedistance/{dogID}/{tournamentID}")
+    @Transactional
+    public void updateRaceDistance(@PathVariable long dogID, @PathVariable long tournamentID, @RequestBody String distance) {
+        em.joinTransaction();
+        em.createNativeQuery("UPDATE race SET distance = '" + distance + "' WHERE dog_id = " + dogID + " AND tournament_id = " + tournamentID).executeUpdate();
+        //return judgeRepository.save(request);
+
     }
     @CrossOrigin
     @ResponseStatus(HttpStatus.OK)
