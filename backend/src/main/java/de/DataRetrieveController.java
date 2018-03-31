@@ -101,13 +101,26 @@ public class DataRetrieveController {
 
     @CrossOrigin
     @RequestMapping(value = "/tournamentdogs/{id}", method = RequestMethod.GET)
-    public List<Coursing> getTournamentDog(@PathVariable long id) {
+    public List<Coursing> getCoursingsForTournament(@PathVariable long id) {
         System.out.println("all tournamentdogs");
         if (tournamentRepository.findById(id) != null) {
             List<Coursing> coursings = tournamentRepository.findById(id).getCoursings();
             for (int i = 0; i < coursings.size(); i++) {
                 coursings.get(i).setDogname(formatDogAndKennel(coursings.get(i).getDog().getId()));
             }
+            Collections.sort(coursings, new Comparator<Coursing>() {
+                @Override
+                public int compare(Coursing arg0, Coursing arg1) {
+
+                    if (arg0.getCoursingClass() != null && arg1.getCoursingClass() != null) {
+                        return arg0.getCoursingClass().compareTo(arg1.getCoursingClass());
+                    }
+                    if (arg0.getCoursingClass() == null) {
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
             return coursings;
         } else return null;
         //return tournamentRepository.findOne(id).getCoursings();
@@ -115,7 +128,7 @@ public class DataRetrieveController {
 
     @CrossOrigin
     @RequestMapping(value = "/races/{id}", method = RequestMethod.GET)
-    public List<RaceDTO> getRace(@PathVariable long id) {
+    public List<RaceDTO> getRacesForTournament(@PathVariable long id) {
         System.out.println("all races");
         if (tournamentRepository.findById(id) != null) {
             List<RaceDTO> dtoList = new ArrayList<>();
@@ -133,6 +146,19 @@ public class DataRetrieveController {
                 dto.setRaceClass(races.get(i).getRaceClass());
                 dtoList.add(dto);
             }
+            Collections.sort(dtoList, new Comparator<RaceDTO>() {
+                @Override
+                public int compare(RaceDTO arg0, RaceDTO arg1) {
+
+                    if (arg0.getRaceClass() != null && arg1.getRaceClass() != null) {
+                        return arg0.getRaceClass().compareTo(arg1.getRaceClass());
+                    }
+                    if (arg0.getRaceClass() == null) {
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
             return dtoList;
         } else return null;
         //return tournamentRepository.findOne(id).getCoursings();
