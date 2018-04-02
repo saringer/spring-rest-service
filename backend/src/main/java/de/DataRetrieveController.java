@@ -144,6 +144,7 @@ public class DataRetrieveController {
                 dto.setDog(races.get(i).getDog());
                 dto.setDistance(races.get(i).getDistance());
                 dto.setRaceClass(races.get(i).getRaceClass());
+                dto.setPoints(races.get(i).getPoints());
                 dtoList.add(dto);
             }
             Collections.sort(dtoList, new Comparator<RaceDTO>() {
