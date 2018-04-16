@@ -1,6 +1,10 @@
-package de.data_transfer_objects;
+package de.data_models.data_transfer_objects;
 
 public class CoursingResult {
+
+    public CoursingResult() {
+
+    }
 
     public String getDogname() {
         return dogname;
@@ -34,7 +38,9 @@ public class CoursingResult {
         this.totalratings = totalratings;
     }
 
-    Long maxNoRatings;
+    private Long maxNoRatings;
+
+    private Long dog_id;
     private String dogname;
     private String ownername;
     private Long totalParticipations;
@@ -55,6 +61,14 @@ public class CoursingResult {
 
     public void setMaxNoRatings(Long maxNoRatings) {
         this.maxNoRatings = maxNoRatings;
+    }
+
+    public Long getDog_id() {
+        return dog_id;
+    }
+
+    public void setDog_id(Long dog_id) {
+        this.dog_id = dog_id;
     }
 
 

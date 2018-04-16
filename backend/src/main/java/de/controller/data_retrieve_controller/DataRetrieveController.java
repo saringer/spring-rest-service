@@ -1,18 +1,13 @@
-package de.data_retrieve_controller;
+package de.controller.data_retrieve_controller;
 
-import de.data_access_objects.coursing.Rating;
-import de.data_access_objects.coursing.TotalParticipation;
-import de.data_models.*;
-import de.data_transfer_objects.CoursingResult;
-
-import de.data_transfer_objects.RaceDTO;
+import de.data_models.data_transfer_objects.RaceDTO;
+import de.data_models.entities.*;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.persistence.EntityManager;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,71 +64,9 @@ public class DataRetrieveController {
 
     }
 
-    @CrossOrigin
-    @RequestMapping(value = "/tournamentdogs/{id}", method = RequestMethod.GET)
-    public List<Coursing> getCoursingsForTournament(@PathVariable long id) {
-        System.out.println("all tournamentdogs");
-        if (tournamentRepository.findById(id) != null) {
-            List<Coursing> coursings = tournamentRepository.findById(id).getCoursings();
-            for (int i = 0; i < coursings.size(); i++) {
-                coursings.get(i).setDogname(formatDogAndKennel(coursings.get(i).getDog().getId()));
-            }
-            Collections.sort(coursings, new Comparator<Coursing>() {
-                @Override
-                public int compare(Coursing arg0, Coursing arg1) {
 
-                    if (arg0.getCoursingClass() != null && arg1.getCoursingClass() != null) {
-                        return arg0.getCoursingClass().compareTo(arg1.getCoursingClass());
-                    }
-                    if (arg0.getCoursingClass() == null) {
-                        return 1;
-                    }
-                    return -1;
-                }
-            });
-            return coursings;
-        } else return null;
-        //return tournamentRepository.findOne(id).getCoursings();
-    }
 
-    @CrossOrigin
-    @RequestMapping(value = "/races/{id}", method = RequestMethod.GET)
-    public List<RaceDTO> getRacesForTournament(@PathVariable long id) {
-        System.out.println("all races");
-        if (tournamentRepository.findById(id) != null) {
-            List<RaceDTO> dtoList = new ArrayList<>();
 
-            List<Race> races = tournamentRepository.findById(id).getRaces();
-            for (int i = 0; i < races.size(); i++) {
-                RaceDTO dto = new RaceDTO();
-                dto.setDogname(formatDogAndKennel(races.get(i).getDog().getId()));
-                dto.setNotfinished(races.get(i).isNotfinished());
-                dto.setRaceTime(races.get(i).getRaceTime());
-                dto.setTournamentid(id);
-                dto.setTournament(races.get(i).getTournament());
-                dto.setDog(races.get(i).getDog());
-                dto.setDistance(races.get(i).getDistance());
-                dto.setRaceClass(races.get(i).getRaceClass());
-                dto.setPoints(races.get(i).getPoints());
-                dtoList.add(dto);
-            }
-            Collections.sort(dtoList, new Comparator<RaceDTO>() {
-                @Override
-                public int compare(RaceDTO arg0, RaceDTO arg1) {
-
-                    if (arg0.getRaceClass() != null && arg1.getRaceClass() != null) {
-                        return arg0.getRaceClass().compareTo(arg1.getRaceClass());
-                    }
-                    if (arg0.getRaceClass() == null) {
-                        return 1;
-                    }
-                    return -1;
-                }
-            });
-            return dtoList;
-        } else return null;
-        //return tournamentRepository.findOne(id).getCoursings();
-    }
 
     @CrossOrigin
     @RequestMapping(value = "/owners", method = RequestMethod.GET)
@@ -229,18 +162,5 @@ public class DataRetrieveController {
 
 
 
-    private String formatDogAndKennel(Long dogID) {
-        Dog dog = dogRepository.getOne(dogID);
 
-        if (dog.getBreeder() != null) {
-            Breeder breeder = dog.getBreeder();
-            if (breeder.getAffix().equalsIgnoreCase("prefix")) {
-                return breeder.getKennelname() + ' ' + dog.getName();
-            } else {
-                return dog.getName() + ' ' + breeder.getKennelname();
-            }
-        } else {
-            return dog.getName();
-        }
-    }
 }

@@ -1,6 +1,6 @@
-package de;
+package de.controller;
 
-import de.data_models.*;
+import de.data_models.entities.*;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

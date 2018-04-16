@@ -1,7 +1,8 @@
-package de.data_models;
+package de.data_models.entities;
 
-import de.data_access_objects.coursing.Rating;
-import de.data_access_objects.coursing.TotalParticipation;
+import de.data_models.data_access_objects.coursing.CoursingDetail;
+import de.data_models.data_access_objects.coursing.Rating;
+import de.data_models.data_access_objects.coursing.TotalParticipation;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ import java.util.Objects;
                                 columns = {
                                         @ColumnResult(name = "dog_id", type = Long.class),
                                         @ColumnResult(name = "name", type = String.class),
-                                        @ColumnResult(name = "total_participation", type=Long.class)
+                                        @ColumnResult(name = "total_participation", type = Long.class)
                                 }
                         )
                 }
@@ -32,6 +33,24 @@ import java.util.Objects;
                                 columns = {
                                         @ColumnResult(name = "coursing_rating", type = Double.class),
                                         @ColumnResult(name = "double_weighted", type = Boolean.class)
+                                }
+                        )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "coursingdetails",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = CoursingDetail.class,
+                                columns = {
+                                        @ColumnResult(name = "title", type = String.class),
+                                        @ColumnResult(name = "coursing_rating", type = Double.class),
+                                        @ColumnResult(name = "double_weighted", type = Boolean.class),
+                                        @ColumnResult(name = "notstarted", type = Boolean.class),
+                                        @ColumnResult(name = "notfinished", type = Boolean.class),
+                                        @ColumnResult(name = "injured", type = Boolean.class),
+                                        @ColumnResult(name = "withdrawn", type = Boolean.class),
+                                        @ColumnResult(name = "disqualified", type = Boolean.class)
                                 }
                         )
                 }
@@ -56,6 +75,11 @@ public class Coursing implements Serializable {
     private int coursingPlacement;
     private String coursingClass;
     private String dogname;
+    private boolean notfinished;
+    private boolean notstarted;
+    private boolean withdrawn;
+    private boolean injured;
+    private boolean disqualified;
 
 
     public String getCoursingClass() {
@@ -92,8 +116,45 @@ public class Coursing implements Serializable {
         this.dogname = dogname;
     }
 
+    public boolean isNotfinished() {
+        return notfinished;
+    }
 
+    public void setNotfinished(boolean notfinished) {
+        this.notfinished = notfinished;
+    }
 
+    public boolean isNotstarted() {
+        return notstarted;
+    }
+
+    public void setNotstarted(boolean notstarted) {
+        this.notstarted = notstarted;
+    }
+
+    public boolean isWithdrawn() {
+        return withdrawn;
+    }
+
+    public void setWithdrawn(boolean withdrawn) {
+        this.withdrawn = withdrawn;
+    }
+
+    public boolean isInjured() {
+        return injured;
+    }
+
+    public void setInjured(boolean injured) {
+        this.injured = injured;
+    }
+
+    public boolean isDisqualified() {
+        return disqualified;
+    }
+
+    public void setDisqualified(boolean disqualified) {
+        this.disqualified = disqualified;
+    }
 
     public Dog getDog() {
         return dog;

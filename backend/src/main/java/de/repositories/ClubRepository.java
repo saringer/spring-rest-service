@@ -1,7 +1,6 @@
 package de.repositories;
 
-import de.data_models.Club;
-import de.data_models.Owner;
+import de.data_models.entities.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

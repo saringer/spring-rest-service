@@ -1,6 +1,6 @@
-package de;
+package de.controller;
 
-import de.data_models.*;
+import de.data_models.entities.*;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class DataStoreController {
         System.out.println("saveTournamentDogJson");
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
-        dog.addCoursing(request);
+        dog.addOrUpdateCoursing(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
     }
@@ -60,7 +60,7 @@ public class DataStoreController {
         System.out.println("saveTournamentDogRaceJson");
         Dog dog = dogRepository.findOne(request.getDog().getId());
         Tournament tournament = tournamentRepository.findOne(request.getTournament().getId());
-        dog.addRace(request);
+        dog.addOrUpdateRace(request);
         tournamentRepository.save(tournament);
         dogRepository.save(dog);
     }

@@ -1,10 +1,9 @@
-package de.data_models;
+package de.data_models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.Set;
 
 @Entity

@@ -1,6 +1,6 @@
 package de.repositories;
 
-import de.data_models.Judge;
+import de.data_models.entities.Judge;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

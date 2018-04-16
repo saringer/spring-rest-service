@@ -1,4 +1,4 @@
-package de.data_access_objects.coursing;
+package de.data_models.data_access_objects.coursing;
 
 public class TotalParticipation {
 

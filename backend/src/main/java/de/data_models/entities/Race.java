@@ -1,4 +1,4 @@
-package de.data_models;
+package de.data_models.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -58,8 +58,43 @@ public class Race implements Serializable {
 
     private Double raceTime;
     private boolean notfinished;
+    private boolean notstarted;
+    private boolean withdrawn;
+    private boolean injured;
+    private boolean disqualified;
     private String distance;
 
+    public boolean isNotstarted() {
+        return notstarted;
+    }
+
+    public void setNotstarted(boolean notstarted) {
+        this.notstarted = notstarted;
+    }
+
+    public boolean isWithdrawn() {
+        return withdrawn;
+    }
+
+    public void setWithdrawn(boolean withdrawn) {
+        this.withdrawn = withdrawn;
+    }
+
+    public boolean isInjured() {
+        return injured;
+    }
+
+    public void setInjured(boolean injured) {
+        this.injured = injured;
+    }
+
+    public boolean isDisqualified() {
+        return disqualified;
+    }
+
+    public void setDisqualified(boolean disqualified) {
+        this.disqualified = disqualified;
+    }
 
     public boolean isNotfinished() {
         return notfinished;

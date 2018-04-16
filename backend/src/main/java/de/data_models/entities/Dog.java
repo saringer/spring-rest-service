@@ -1,4 +1,4 @@
-package de.data_models;
+package de.data_models.entities;
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -8,7 +8,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "DOG")
-//@JsonIdentityReference(alwaysAsId = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", resolver = EntityIdResolver.class, scope = Dog.class)
 public class Dog {
 
@@ -16,7 +15,7 @@ public class Dog {
     @Column(name = "DOG_ID", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String passport_no;
+
     @NotNull
     private String name;
     @NotNull
@@ -29,6 +28,7 @@ public class Dog {
     private String chip_no;
     private String coat_colour;
     private Date date_of_birth;
+    private String passport_no;
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
@@ -57,28 +57,36 @@ public class Dog {
         this.coursings = coursings;
     }
 
-    public void addCoursing(Coursing coursing) {
+    public void addOrUpdateCoursing(Coursing coursing) {
         boolean isAlreadyInList = false;
         for (int i = 0; i < this.coursings.size(); i++) {
 
+            // IF AN COURSING WITH THE GIVEN ID ALREADY EXISTS THE ENTRY WILL BE UPDATED
             if (this.coursings.get(i).getTournament().getId() == coursing.getTournament().getId()) {
                 //this.coursings.set(i, coursing);
                 this.coursings.get(i).setCoursingRating(coursing.getCoursingRating());
                 this.coursings.get(i).setCoursingPlacement(coursing.getCoursingPlacement());
                 this.coursings.get(i).setCoursingClass(coursing.getCoursingClass());
                 this.coursings.get(i).setDogname(coursing.getDogname());
+                this.coursings.get(i).setNotfinished(coursing.isNotfinished());
+                this.coursings.get(i).setNotstarted(coursing.isNotstarted());
+                this.coursings.get(i).setWithdrawn(coursing.isWithdrawn());
+                this.coursings.get(i).setDisqualified(coursing.isDisqualified());
+                this.coursings.get(i).setInjured(coursing.isInjured());
+
 
 
                 isAlreadyInList = true;
                 break;
             }
         }
+        // OTHERWISE A NEW COURSING ENTRY WILL BE ADDED
         if (!isAlreadyInList) {
             this.coursings.add(coursing);
         }
     }
 
-    public void addRace(Race race) {
+    public void addOrUpdateRace(Race race) {
         boolean isAlreadyInList = false;
         for (int i = 0; i < this.races.size(); i++) {
             if (this.races.get(i).getTournament().getId() == race.getTournament().getId()) {
@@ -86,8 +94,13 @@ public class Dog {
                 //this.coursings.set(i, coursing);
                 this.races.get(i).setRaceTime(race.getRaceTime());
                 this.races.get(i).setPoints(race.getPoints());
-                this.races.get(i).setNotfinished(race.isNotfinished());
                 this.races.get(i).setRaceClass(race.getRaceClass());
+                this.races.get(i).setNotfinished(race.isNotfinished());
+                this.races.get(i).setNotstarted(race.isNotstarted());
+                this.races.get(i).setWithdrawn(race.isWithdrawn());
+                this.races.get(i).setDisqualified(race.isDisqualified());
+                this.races.get(i).setInjured(race.isInjured());
+
 
                 isAlreadyInList = true;
                 break;

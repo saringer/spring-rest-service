@@ -1,4 +1,4 @@
-package de.data_models;
+package de.data_models.entities;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;

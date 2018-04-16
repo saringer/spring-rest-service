@@ -1,6 +1,4 @@
-package de.data_models;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+package de.data_models.entities;
 
 import javax.persistence.*;
 import java.util.Set;

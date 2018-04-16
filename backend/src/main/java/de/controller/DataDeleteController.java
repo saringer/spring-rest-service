@@ -1,8 +1,8 @@
-package de;
+package de.controller;
 
-import de.data_models.Dog;
-import de.data_models.Judge;
-import de.data_models.Tournament;
+import de.data_models.entities.Dog;
+import de.data_models.entities.Judge;
+import de.data_models.entities.Tournament;
 import de.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,6 @@
 package de.repositories;
 
-import de.data_models.Dog;
-import de.data_models.Tournament;
+import de.data_models.entities.Dog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

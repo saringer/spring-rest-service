@@ -1,12 +1,15 @@
-package de.data_retrieve_controller;
+package de.controller.data_retrieve_controller;
 
-import de.data_access_objects.coursing.Rating;
-import de.data_access_objects.coursing.TotalParticipation;
-import de.data_models.Breeder;
-import de.data_models.Dog;
-import de.data_models.Owner;
-import de.data_transfer_objects.CoursingResult;
+import de.data_models.data_access_objects.coursing.CoursingDetail;
+import de.data_models.data_access_objects.coursing.Rating;
+import de.data_models.data_access_objects.coursing.TotalParticipation;
+import de.data_models.entities.Breeder;
+import de.data_models.entities.Coursing;
+import de.data_models.entities.Dog;
+import de.data_models.entities.Owner;
+import de.data_models.data_transfer_objects.CoursingResult;
 import de.repositories.DogRepository;
+import de.repositories.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +26,14 @@ public class CoursingController {
     private DogRepository dogRepository;
     @Autowired
     EntityManager em;
+    @Autowired
+    private TournamentRepository tournamentRepository;
 
 
     @CrossOrigin
     @RequestMapping(value = "/coursings/{coursing_class}/{gender}/{year}", method = RequestMethod.GET)
-    public List<CoursingResult> getCoursings(@PathVariable String coursing_class, @PathVariable String gender, @PathVariable String year) {
+    public List<CoursingResult> getCoursings(@PathVariable String coursing_class, @PathVariable String gender,
+                                             @PathVariable String year) {
         System.out.println("all Coursings");
         // Receive a list of Dogid, Dogname and total number of participations
         List<TotalParticipation> totalparticipationcoursing;
@@ -47,16 +53,18 @@ public class CoursingController {
             // Long totalRatings = getTopFiveCoursingRatings(totalparticipationcoursing.get(i).getDog_id());
 
             //getestRatings(totalparticipationcoursing.get(i).getDog_id());
-
+            coursingResult.setDog_id(totalparticipationcoursing.get(i).getDog_id());
             coursingResult.setTotalParticipations(totalParticipations);
             //coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
             coursingResult.setDogname(formatDogAndKennel(totalparticipationcoursing.get(i).getDog_id()));
-            coursingResult.setTotalratings(getAverageOfBestRatings(totalparticipationcoursing.get(i).getDog_id(), coursing_class));
-            if (totalParticipations > 5) {
+            //coursingResult.setTotalratings(getAverageOfBestRatingsAndSetMaxNoRating(totalparticipationcoursing.get(i).getDog_id(), coursing_class));
+            getAverageOfBestRatingsAndSetMaxNoRating(totalparticipationcoursing.get(i).getDog_id(), coursing_class, coursingResult);
+
+            /*if (totalParticipations > 5) {
                 coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
             } else {
                 coursingResult.setMaxNoRatings(totalParticipations);
-            }
+            }*/
             // If Owner exists add his/her firstname and lastname to CoursingResult
             if (dogRepository.findById(totalparticipationcoursing.get(i).getDog_id()).getOwner() != null) {
                 Owner owner = dogRepository.findById(totalparticipationcoursing.get(i).getDog_id()).getOwner();
@@ -91,6 +99,43 @@ public class CoursingController {
         return coursingResults;
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/tournamentdogs/{tournament_id}", method = RequestMethod.GET)
+    public List<Coursing> getCoursingsForTournament(@PathVariable long tournament_id) {
+        System.out.println("all tournamentdogs");
+        if (tournamentRepository.findById(tournament_id) != null) {
+            List<Coursing> coursings = tournamentRepository.findById(tournament_id).getCoursings();
+            for (int i = 0; i < coursings.size(); i++) {
+                coursings.get(i).setDogname(formatDogAndKennel(coursings.get(i).getDog().getId()));
+            }
+            Collections.sort(coursings, new Comparator<Coursing>() {
+                @Override
+                public int compare(Coursing arg0, Coursing arg1) {
+
+                    if (arg0.getCoursingClass() != null && arg1.getCoursingClass() != null) {
+                        return arg0.getCoursingClass().compareTo(arg1.getCoursingClass());
+                    }
+                    if (arg0.getCoursingClass() == null) {
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return coursings;
+        } else return null;
+        //return tournamentRepository.findOne(id).getCoursings();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/coursingdetails/{dog_id}/{year}", method = RequestMethod.GET)
+    public List<CoursingDetail> getCoursingDetailsForDog(@PathVariable long dog_id, @PathVariable String year) {
+        System.out.println("get coursingdetails");
+        List<CoursingDetail> coursingDetails = em.createNativeQuery("SELECT  tournament.title, coursing_rating, tournament.double_weighted, notstarted, notfinished, injured, withdrawn, disqualified FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " AND to_char(tournament.date, 'YYYY') = '" + year + "'", "coursingdetails").getResultList();
+        return coursingDetails;
+
+    }
+   //
+
     private String formatDogAndKennel(Long dogID) {
         Dog dog = dogRepository.getOne(dogID);
 
@@ -106,14 +151,18 @@ public class CoursingController {
         }
     }
 
-    private String getAverageOfBestRatings(Long dog_id, String coursing_class) {
+    private void getAverageOfBestRatingsAndSetMaxNoRating(Long dog_id, String coursing_class, CoursingResult coursingResult) {
         Integer double_weighted_couter = 0;
         Double sum = 0.0;
         List<Rating> ratings;
         if (coursing_class.equalsIgnoreCase("all")) {
-            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + "  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
+            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " " +
+                    "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
+                    "AND coursing.injured = false AND coursing.disqualified = false AND coursing_rating > 0  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         } else {
-            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " AND coursing.coursing_class = '" + coursing_class + "'  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
+            ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " AND coursing.coursing_class = '" + coursing_class + "' " +
+                    "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
+                    "AND coursing.injured = false AND coursing.disqualified = false AND coursing_rating > 0  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         }
         // minimum 5 coursings to be part of the competition
         if (ratings.size() > 4) {
@@ -131,9 +180,14 @@ public class CoursingController {
 
 
             }
-            return String.format("%.3f", sum / (ratings.size() + double_weighted_couter));
+            //return String.format("%.3f", sum / (ratings.size() + double_weighted_couter));
+            coursingResult.setTotalratings(String.format("%.3f", sum / (ratings.size() + double_weighted_couter)));
+            coursingResult.setMaxNoRatings(Integer.toUnsignedLong(ratings.size()));
         } else {
-            return String.format("%.3f", sum);
+            coursingResult.setTotalratings(String.format("%.3f", sum));
+            coursingResult.setMaxNoRatings(Integer.toUnsignedLong(ratings.size()));
+
+            //return String.format("%.3f", sum);
         }
     }
 
