@@ -1,8 +1,8 @@
 package de.data_models.data_access_objects.coursing;
 
-public class TotalParticipation {
+public class TotalParticipationCoursing {
 
-        public TotalParticipation(Long dog_id, String name, Long total_participation) {
+        public TotalParticipationCoursing(Long dog_id, String name, Long total_participation) {
             this.name = name;
             this.dog_id = dog_id;
             this.total_participation = total_participation;

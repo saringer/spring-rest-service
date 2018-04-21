@@ -2,7 +2,7 @@ package de.controller.data_retrieve_controller;
 
 import de.data_models.data_access_objects.coursing.CoursingDetail;
 import de.data_models.data_access_objects.coursing.Rating;
-import de.data_models.data_access_objects.coursing.TotalParticipation;
+import de.data_models.data_access_objects.coursing.TotalParticipationCoursing;
 import de.data_models.entities.Breeder;
 import de.data_models.entities.Coursing;
 import de.data_models.entities.Dog;
@@ -36,7 +36,7 @@ public class CoursingController {
                                              @PathVariable String year) {
         System.out.println("all Coursings");
         // Receive a list of Dogid, Dogname and total number of participations
-        List<TotalParticipation> totalparticipationcoursing;
+        List<TotalParticipationCoursing> totalparticipationcoursing;
         if (coursing_class.equalsIgnoreCase("international")) {
             totalparticipationcoursing = em.createNativeQuery("select coursing.dog_id, dog.name, count(coursing.tournament_id) AS total_participation from coursing JOIN dog ON dog.dog_id = coursing.dog_id JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.coursing_class = '" + coursing_class + "' AND dog.sex = '" + gender + "' AND dog.race = 'Whippet' AND to_char(tournament.date, 'YYYY') = '" + year + "'  GROUP BY  dog.name, coursing.dog_id", "totalparticipationcoursing").getResultList();
         } else if (coursing_class.equalsIgnoreCase("national")) {

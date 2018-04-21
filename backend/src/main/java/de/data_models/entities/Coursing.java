@@ -2,7 +2,7 @@ package de.data_models.entities;
 
 import de.data_models.data_access_objects.coursing.CoursingDetail;
 import de.data_models.data_access_objects.coursing.Rating;
-import de.data_models.data_access_objects.coursing.TotalParticipation;
+import de.data_models.data_access_objects.coursing.TotalParticipationCoursing;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ import java.util.Objects;
                 name = "totalparticipationcoursing",
                 classes = {
                         @ConstructorResult(
-                                targetClass = TotalParticipation.class,
+                                targetClass = TotalParticipationCoursing.class,
                                 columns = {
                                         @ColumnResult(name = "dog_id", type = Long.class),
                                         @ColumnResult(name = "name", type = String.class),

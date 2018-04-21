@@ -1,11 +1,63 @@
 package de.data_models.entities;
 
+import de.data_models.data_access_objects.coursing.CoursingDetail;
+import de.data_models.data_access_objects.coursing.Rating;
+import de.data_models.data_access_objects.coursing.TotalParticipationCoursing;
+import de.data_models.data_access_objects.race.RaceDetail;
+import de.data_models.data_access_objects.race.RaceRating;
+import de.data_models.data_access_objects.race.TotalParticipationRace;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "race")
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "totalparticipationrace",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = TotalParticipationRace.class,
+                                columns = {
+                                        @ColumnResult(name = "dog_id", type = Long.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "total_participation", type = Long.class)
+                                }
+                        )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "raceratings",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = RaceRating.class,
+                                columns = {
+                                        @ColumnResult(name = "points", type = Integer.class),
+                                        @ColumnResult(name = "double_weighted", type = Boolean.class)
+                                }
+                        )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "racedetails",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = RaceDetail.class,
+                                columns = {
+                                        @ColumnResult(name = "title", type = String.class),
+                                        @ColumnResult(name = "points", type = Integer.class),
+                                        @ColumnResult(name = "double_weighted", type = Boolean.class),
+                                        @ColumnResult(name = "notstarted", type = Boolean.class),
+                                        @ColumnResult(name = "notfinished", type = Boolean.class),
+                                        @ColumnResult(name = "injured", type = Boolean.class),
+                                        @ColumnResult(name = "withdrawn", type = Boolean.class),
+                                        @ColumnResult(name = "disqualified", type = Boolean.class)
+                                }
+                        )
+                }
+        )
+})
 public class Race implements Serializable {
 
     @Id
