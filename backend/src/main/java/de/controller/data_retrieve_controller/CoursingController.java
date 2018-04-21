@@ -134,7 +134,7 @@ public class CoursingController {
         return coursingDetails;
 
     }
-   //
+    //
 
     private String formatDogAndKennel(Long dogID) {
         Dog dog = dogRepository.getOne(dogID);
@@ -152,9 +152,9 @@ public class CoursingController {
     }
 
     private void getAverageOfBestRatingsAndSetMaxNoRating(Long dog_id, String coursing_class, CoursingResult coursingResult) {
-        Integer double_weighted_couter = 0;
         Double sum = 0.0;
         List<Rating> ratings;
+        // This case isnt happening anymore since we are only querying for particular classes
         if (coursing_class.equalsIgnoreCase("all")) {
             ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " " +
                     "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
@@ -164,25 +164,56 @@ public class CoursingController {
                     "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
                     "AND coursing.injured = false AND coursing.disqualified = false AND coursing_rating > 0  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         }
-        // minimum 5 coursings to be part of the competition
-        if (ratings.size() > 4) {
+        // minimum 5 coursings to be part of the competition, each coursing might score double
+
+        // first of all we check if the dog did participate on enough coursings
+        Integer numberOfParticipationsWithDoubleScoredCoursings = 0;
+        for (int i = 0; i < ratings.size(); i++) {
+            if (ratings.get(i).isDouble_weighted()) {
+                numberOfParticipationsWithDoubleScoredCoursings = numberOfParticipationsWithDoubleScoredCoursings + 2;
+            } else {
+                numberOfParticipationsWithDoubleScoredCoursings = numberOfParticipationsWithDoubleScoredCoursings + 1;
+            }
+        }
+
+        /* if there are multiple coursings which score double we have to take care of only calculating 5 coursings in total.
+          Hint:  the coursings are already sorted by best ratings based on the previous sql query.
+        // For instance:
+                1. 80 Pkt
+                2. 70 Pkt
+                3. 90 Pkt
+                = 90+90+80+80+70
+        */
+        if (numberOfParticipationsWithDoubleScoredCoursings > 4) {
+            Integer coursingsInCalculation = 0;
+
             for (int i = 0; i < ratings.size(); i++) {
-                if (ratings.get(i).getCoursing_rating() != null) {
-                    if (ratings.get(i).isDouble_weighted()) {
-                        double_weighted_couter++;
-                        sum = sum + (ratings.get(i).getCoursing_rating() * 2);
+                if (coursingsInCalculation == 5) {
+                    break;
+                } else {
 
-                    } else {
-                        sum = sum + ratings.get(i).getCoursing_rating();
+                    if (ratings.get(i).getCoursing_rating() != null) {
+                        if (ratings.get(i).isDouble_weighted()) {
+                            if (coursingsInCalculation <= 3) {
+                                coursingsInCalculation = coursingsInCalculation + 2;
+                                sum = sum + (ratings.get(i).getCoursing_rating() * 2);
+                            } else {
+                                coursingsInCalculation = coursingsInCalculation + 1;
+                                sum = sum + (ratings.get(i).getCoursing_rating());
+                            }
 
+                        } else {
+                            coursingsInCalculation = coursingsInCalculation + 1;
+                            sum = sum + ratings.get(i).getCoursing_rating();
+
+                        }
                     }
                 }
 
-
             }
             //return String.format("%.3f", sum / (ratings.size() + double_weighted_couter));
-            coursingResult.setTotalratings(String.format("%.3f", sum / (ratings.size() + double_weighted_couter)));
-            coursingResult.setMaxNoRatings(Integer.toUnsignedLong(ratings.size()));
+            coursingResult.setTotalratings(String.format("%.3f", sum / 5));
+            coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
         } else {
             coursingResult.setTotalratings(String.format("%.3f", sum));
             coursingResult.setMaxNoRatings(Integer.toUnsignedLong(ratings.size()));
