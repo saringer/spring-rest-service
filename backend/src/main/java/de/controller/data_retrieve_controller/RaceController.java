@@ -155,10 +155,10 @@ public class RaceController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/racedetails/{dog_id}/{year}", method = RequestMethod.GET)
-    public List<RaceDetail> getRaceDetailsForDog(@PathVariable long dog_id, @PathVariable String year) {
+    @RequestMapping(value = "/racedetails/{dog_id}/{race_class}/{year}", method = RequestMethod.GET)
+    public List<RaceDetail> getRaceDetailsForDog(@PathVariable long dog_id, @PathVariable String year, @PathVariable String race_class) {
         System.out.println("get racedetails");
-        List<RaceDetail> raceDetails = em.createNativeQuery("SELECT  tournament.title, points, tournament.double_weighted, notstarted, notfinished, injured, withdrawn, disqualified FROM race JOIN tournament ON tournament.tournament_id = race.tournament_id WHERE race.dog_id = " + dog_id + " AND to_char(tournament.date, 'YYYY') = '" + year + "'", "racedetails").getResultList();
+        List<RaceDetail> raceDetails = em.createNativeQuery("SELECT  tournament.title, points, tournament.double_weighted, notstarted, notfinished, injured, withdrawn, disqualified FROM race JOIN tournament ON tournament.tournament_id = race.tournament_id WHERE race.dog_id = " + dog_id + " AND to_char(tournament.date, 'YYYY') = '" + year + "' AND race.race_class = '" + race_class + "'" , "racedetails").getResultList();
         return raceDetails;
 
     }
