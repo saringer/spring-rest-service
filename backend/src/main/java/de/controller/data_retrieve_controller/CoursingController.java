@@ -58,7 +58,7 @@ public class CoursingController {
             //coursingResult.setDogname(totalparticipationcoursing.get(i).getName());
             coursingResult.setDogname(formatDogAndKennel(totalparticipationcoursing.get(i).getDog_id()));
             //coursingResult.setTotalratings(getAverageOfBestRatingsAndSetMaxNoRating(totalparticipationcoursing.get(i).getDog_id(), coursing_class));
-            getAverageOfBestRatingsAndSetMaxNoRating(totalparticipationcoursing.get(i).getDog_id(), coursing_class, coursingResult);
+            getAverageOfBestRatingsAndSetMaxNoRating(totalparticipationcoursing.get(i).getDog_id(), coursing_class, coursingResult, year);
 
             /*if (totalParticipations > 5) {
                 coursingResult.setMaxNoRatings(Integer.toUnsignedLong(5));
@@ -151,17 +151,17 @@ public class CoursingController {
         }
     }
 
-    private void getAverageOfBestRatingsAndSetMaxNoRating(Long dog_id, String coursing_class, CoursingResult coursingResult) {
+    private void getAverageOfBestRatingsAndSetMaxNoRating(Long dog_id, String coursing_class, CoursingResult coursingResult, String year) {
         Double sum = 0.0;
         List<Rating> ratings;
         // This case isnt happening anymore since we are only querying for particular classes
         if (coursing_class.equalsIgnoreCase("all")) {
             ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " " +
-                    "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
+                    "AND to_char(tournament.date, 'YYYY') = '" + year + "' AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
                     "AND coursing.injured = false AND coursing.disqualified = false AND coursing_rating > 0  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         } else {
             ratings = (List<Rating>) em.createNativeQuery("SELECT coursing.coursing_rating, tournament.double_weighted FROM coursing JOIN tournament ON tournament.tournament_id = coursing.tournament_id WHERE coursing.dog_id = " + dog_id + " AND coursing.coursing_class = '" + coursing_class + "' " +
-                    "AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
+                    "AND to_char(tournament.date, 'YYYY') = '" + year + "' AND coursing.notfinished = false AND coursing.notstarted = false AND coursing.withdrawn = false \n" +
                     "AND coursing.injured = false AND coursing.disqualified = false AND coursing_rating > 0  ORDER BY coursing.coursing_rating DESC LIMIT 5", "ratings").getResultList();
         }
         // minimum 5 coursings to be part of the competition, each coursing might score double
@@ -176,12 +176,12 @@ public class CoursingController {
             }
         }
 
-        /* if there are multiple coursings which score double we have to take care of only calculating 5 coursings in total.
+        /* if there are multiple coursings which scores twice we have to take care of only calculating 5 coursings in total.
           Hint:  the coursings are already sorted by best ratings based on the previous sql query.
         // For instance:
-                1. 80 Pkt
-                2. 70 Pkt
-                3. 90 Pkt
+                1. 90 Pkt (scores twice)
+                2. 80 Pkt (scores twice)
+                3. 70 Pkt
                 = 90+90+80+80+70
         */
         if (numberOfParticipationsWithDoubleScoredCoursings > 4) {
